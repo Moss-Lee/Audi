@@ -738,7 +738,7 @@ async function R(e) {
           children: ["1" === o.showTextDesc ? b(x, {
             settings: o,
             size: 14,
-            children: "油量状态:"
+            children: "电量状态:"
           }) : b(S, {
             children: b("image", {
               source: SFSymbol.named("bolt" + ("1" === o.showIconSolid ? ".fill" : "")).image,
@@ -1877,7 +1877,7 @@ await (async e => {
   }
 
   async getVehiclesStatus(e = !1) {
-    const t = {
+    const request1 = {
       url: `https://audioneapp.faw-vw.com/prod/tm/remote-control-service/public/api/v1/green/remote-charging/get-charging-status?vin=${this.settings.carVIN}`,
       method: "GET",
       headers: {
@@ -1887,9 +1887,21 @@ await (async e => {
         "Accept-Language": "de-DE", ...this.requestHeader()
       }
     };
+
+    const request2 = {
+      url: `https://audioneapp.faw-vw.com/prod/tm/remote-control-service/public/api/v1/gray/rvs/vehicle-status?vin=${this.settings.carVIN}`,
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + this.settings.authToken,
+        "X-App-Name": this.appName,
+        "X-App-Version": "113",
+        "Accept-Language": "de-DE", ...this.requestHeader()
+      }
+    };
     try {
-      const i = await this.http(t);
-      return this.settings.vehicleData = this.handleVehiclesData(i.data), await this.saveSettings(!1), this.settings.vehicleData
+      const i = await this.http(request1);
+      const i2 = await this.http(request2);
+      return this.settings.vehicleData = this.handleVehiclesData(i.data, i2.data), await this.saveSettings(!1), this.settings.vehicleData
       // if (e && (console.log("当前车辆状态接口返回数据："), console.log(i), this.settings.debugOutputLog += "当前车辆状态接口返回数据：\n" + JSON.stringify(i) + "\n", await this.saveSettings(!1)), i.error) {
       //   const s = await this.handleMBBCVehiclesApiError(i, this.getVehiclesStatus, e),
       //     n = {url: t.url, error: JSON.stringify(s)};
@@ -2268,7 +2280,7 @@ await (async e => {
     }
   }
 
-  handleVehiclesData(e) {
+  handleVehiclesData(e, e2) {
     if (1) {
       return {
         oilSupport: 1,
@@ -2281,9 +2293,9 @@ await (async e => {
         socLevel: null,
         mileage: 0,
         updateTimeStamp: new Date(e.batteryStatus.carCapturedTimestamp).valueOf(),
-        isLocked: 1,
-        doorStatus: [],
-        windowStatus: []
+        isLocked: this.getVehiclesLocked2(e2.access.doors),
+        doorStatus: this.getVehiclesDoorStatus2(e2.access.doors),
+        windowStatus: this.getVehiclesWindowStatus2(e2.access.windows)
       }
     }
     const t = e.find((e => "0x0204FFFFFF" === e.id))?.field;
@@ -2313,6 +2325,38 @@ await (async e => {
       isLocked: w,
       doorStatus: p,
       windowStatus: y
+    }
+  }
+
+  getVehiclesLocked2(e) {
+    const t = e.filter(value => value.status.length > 1 && 'locked' !==  value.status[1]);
+    return t.length === 0;
+  }
+
+  getVehiclesDoorStatus2(e) {
+    const t = [{id: "frontLeft", name: "左前门"}, {id: "rearLeft", name: "左后门"}
+              ,{id: "frontRight", name: "右前门" }, {id: "rearRight", name: "右后门"}
+              ,{id: "bonnet", name: "引擎盖"}, {id: "trunk", name: "后备箱"}],
+          s = e.filter((e => "closed" !== e.status[0]));
+    const doors = t.filter((e => s.some((t => t.name === e.id))));
+    if (doors.length > 0) {
+      return doors.map((e => e.name));
+    } else {
+      return []
+    }
+  }
+
+  getVehiclesWindowStatus2(e) {
+    const t = [{id: "frontLeft", name: "左前窗"}, {id: "rearLeft", name: "左后窗"}
+              ,{id: "frontRight", name: "右前窗"}, {id: "rearRight", name: "右后窗"}
+              , {id: "sunRoof", name: "天窗"}],
+        i = e.filter((e => t.some((t => t.id === e.name)))),
+        s = i.filter((e => "closed" !== e.status[0]));
+    const windows = t.filter((e => s.some((t => t.name === e.id))));
+    if (windows.length > 0) {
+      return windows.map((e => e.name));
+    } else {
+      return []
     }
   }
 
