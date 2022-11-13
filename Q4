@@ -1,0 +1,2632 @@
+const e = (e, t) => {
+  const i = new DrawContext;
+  return i.opaque = !1, i.respectScreenScale = !0, i.size = new Size(e, t), i
+}, t = (e, t, i, s, n = .2) => {
+  const {size: o, radius: a, width: r, percent: l} = t, c = new Point(o / 2, o / 2), h = c.x - a, g = c.y - a,
+    d = 2 * a, m = new Rect(h, g, d, d);
+  e.setStrokeColor(new Color(s, n)), e.setLineWidth(r), e.strokeEllipse(m);
+  for (let t = 0; t < 3.6 * l; t++) {
+    const n = c.x + a * Math.sin(t * Math.PI / 180) - r / 2, o = c.y - a * Math.cos(t * Math.PI / 180) - r / 2,
+      l = new Rect(n, o, r, r);
+    e.setFillColor(new Color(i)), e.setStrokeColor(new Color(s)), e.fillEllipse(l)
+  }
+}, i = {
+  2796: {
+    models: ["14 Pro Max"],
+    small: {w: 510, h: 510},
+    medium: {w: 1092, h: 510},
+    large: {w: 1092, h: 1146},
+    left: 99,
+    right: 681,
+    top: 282,
+    middle: 918,
+    bottom: 1554
+  },
+  2556: {
+    models: ["14 Pro"],
+    small: {w: 474, h: 474},
+    medium: {w: 1014, h: 474},
+    large: {w: 1014, h: 1062},
+    left: 82,
+    right: 622,
+    top: 270,
+    middle: 858,
+    bottom: 1446
+  },
+  2778: {
+    models: ["12 Pro Max", "13 Pro Max", "14 Plus"],
+    small: {w: 510, h: 510},
+    medium: {w: 1092, h: 510},
+    large: {w: 1092, h: 1146},
+    left: 96,
+    right: 678,
+    top: 246,
+    middle: 882,
+    bottom: 1518
+  },
+  2532: {
+    models: ["12", "12 Pro", "13", "14"],
+    small: {w: 474, h: 474},
+    medium: {w: 1014, h: 474},
+    large: {w: 1014, h: 1062},
+    left: 78,
+    right: 618,
+    top: 231,
+    middle: 819,
+    bottom: 1407
+  },
+  2688: {
+    models: ["Xs Max", "11 Pro Max"],
+    small: {w: 507, h: 507},
+    medium: {w: 1080, h: 507},
+    large: {w: 1080, h: 1137},
+    left: 81,
+    right: 654,
+    top: 228,
+    middle: 858,
+    bottom: 1488
+  },
+  1792: {
+    models: ["11", "Xr"],
+    small: {w: 338, h: 338},
+    medium: {w: 720, h: 338},
+    large: {w: 720, h: 758},
+    left: 54,
+    right: 436,
+    top: 160,
+    middle: 580,
+    bottom: 1e3
+  },
+  2436: {
+    models: ["X", "Xs", "11 Pro"],
+    small: {w: 465, h: 465},
+    medium: {w: 987, h: 465},
+    large: {w: 987, h: 1035},
+    left: 69,
+    right: 591,
+    top: 213,
+    middle: 783,
+    bottom: 1353
+  },
+  "2436_mini": {
+    models: ["12 Mini"],
+    small: {w: 465, h: 465},
+    medium: {w: 987, h: 465},
+    large: {w: 987, h: 1035},
+    left: 69,
+    right: 591,
+    top: 231,
+    middle: 801,
+    bottom: 1371
+  },
+  2208: {
+    models: ["6+", "6s+", "7+", "8+"],
+    small: {w: 471, h: 471},
+    medium: {w: 1044, h: 471},
+    large: {w: 1044, h: 1071},
+    left: 99,
+    right: 672,
+    top: 114,
+    middle: 696,
+    bottom: 1278
+  },
+  1334: {
+    models: ["6", "6s", "7", "8", "SE2"],
+    small: {w: 296, h: 296},
+    medium: {w: 642, h: 296},
+    large: {w: 642, h: 648},
+    left: 54,
+    right: 400,
+    top: 60,
+    middle: 412,
+    bottom: 764
+  },
+  1136: {
+    models: ["5", "5s", "5c", "SE"],
+    small: {w: 282, h: 282},
+    medium: {w: 584, h: 282},
+    large: {w: 584, h: 622},
+    left: 30,
+    right: 332,
+    top: 59,
+    middle: 399,
+    bottom: 399
+  },
+  1624: {
+    models: ["11 Display Zoom mode", "XR Display Zoom mode"],
+    small: {w: 310, h: 310},
+    medium: {w: 658, h: 310},
+    large: {w: 658, h: 690},
+    left: 46,
+    right: 394,
+    top: 142,
+    middle: 522,
+    bottom: 902
+  },
+  2001: {
+    models: ["6+ Display Zoom mode", "6s+ Display Zoom mode", "7+ Display Zoom mode", "8+ Display Zoom mode"],
+    small: {w: 444, h: 444},
+    medium: {w: 963, h: 444},
+    large: {w: 963, h: 972},
+    left: 81,
+    right: 600,
+    top: 90,
+    middle: 618,
+    bottom: 1146
+  }
+}, s = e => {
+  let {width: t, height: i} = e.size;
+  const s = t / i;
+  t > i ? (t = 600, i = t / s) : (i = 600, t = i * s);
+  const n = new DrawContext;
+  return n.opaque = !1, n.size = new Size(t, i), n.drawImageInRect(e, new Rect(0, 0, t, i)), n.getImage()
+};
+var n = {
+  d: (e, t) => {
+    for (var i in t) n.o(t, i) && !n.o(e, i) && Object.defineProperty(e, i, {enumerable: !0, get: t[i]})
+  }, o: (e, t) => Object.prototype.hasOwnProperty.call(e, t)
+}, o = {};
+n.d(o, {Kl: () => w, HY: () => m, ew: () => u, cb: () => f, tZ: () => g, BX: () => d, sY: () => l});
+
+class a {
+  static builderMap = new Map;
+
+  static register(e, t) {
+    a.builderMap.set(e, t)
+  }
+
+  constructor(e, t) {
+    this.parentWidget = e, this.props = t
+  }
+
+  create(e) {
+    const t = a.builderMap.get(e);
+    return t ? new t(this.parentWidget, this.props).create() : null
+  }
+}
+
+class r {
+  funcPropsMap = {};
+  reservedProps = [];
+
+  constructor(e, t) {
+    this.parentWidget = e, this.props = t
+  }
+
+  create() {
+    const e = this.createWidget();
+    return this.setProps(e), e
+  }
+
+  setProps(e) {
+    const {children: t, ...i} = this.props;
+    Object.keys(i).filter((e => !(this.reservedProps || []).includes(e))).forEach((t => {
+      const s = (this.funcPropsMap || {})[t], n = i[t];
+      s ? e[s](n) : e[t] = n
+    }))
+  }
+}
+
+a.register("stack", class extends r {
+  funcPropsMap = {
+    setPadding: "setPadding",
+    useDefaultPadding: "useDefaultPadding",
+    topAlignContent: "topAlignContent",
+    centerAlignContent: "centerAlignContent",
+    bottomAlignContent: "bottomAlignContent",
+    layoutHorizontally: "layoutHorizontally",
+    layoutVertically: "layoutVertically"
+  };
+
+  createWidget() {
+    return this.parentWidget.addStack()
+  }
+}), a.register("text", class extends r {
+  funcPropsMap = {leftAlignText: "leftAlignText", centerAlignText: "centerAlignText", rightAlignText: "rightAlignText"};
+
+  createWidget() {
+    return this.parentWidget.addText(String(this.props.children))
+  }
+}), a.register("spacer", class extends r {
+  reservedProps = ["length"];
+
+  createWidget() {
+    return this.parentWidget.addSpacer(this.props.length)
+  }
+}), a.register("image", class extends r {
+  reservedProps = ["source"];
+  funcPropsMap = {
+    leftAlignImage: "leftAlignImage",
+    centerAlignImage: "centerAlignImage",
+    rightAlignImage: "rightAlignImage",
+    applyFittingContentMode: "applyFittingContentMode",
+    applyFillingContentMode: "applyFillingContentMode"
+  };
+
+  createWidget() {
+    return this.parentWidget.addImage(this.props.source)
+  }
+}), a.register("date", class extends r {
+  reservedProps = ["date"];
+  funcPropsMap = {
+    leftAlignText: "leftAlignText",
+    centerAlignText: "centerAlignText",
+    rightAlignText: "rightAlignText",
+    applyTimeStyle: "applyTimeStyle",
+    applyDateStyle: "applyDateStyle",
+    applyRelativeStyle: "applyRelativeStyle",
+    applyOffsetStyle: "applyOffsetStyle",
+    applyTimerStyle: "applyTimerStyle"
+  };
+
+  createWidget() {
+    return this.parentWidget.addDate(this.props.date)
+  }
+});
+const l = (e, t) => {
+  const {type: i, props: s} = e, {children: n, ...o} = s;
+  if ("string" == typeof i) {
+    const e = c(t, i, s);
+    e && h(e, n)
+  } else {
+    if ("function" != typeof i) throw new Error("type must be a string or a function");
+    {
+      const e = i(s);
+      h(t, e)
+    }
+  }
+}, c = (e, t, i) => new a(e, i).create(t), h = (e, t) => {
+  Array.isArray(t) ? t.forEach((t => l(t, e))) : "object" == typeof t && l(t, e)
+}, g = (e, t) => ({type: e, props: t}), d = g, m = function (e) {
+  return e.children
+};
+let u;
+!function (e) {
+  e.small = "small", e.medium = "medium", e.large = "large", e.extraLarge = "extraLarge"
+}(u || (u = {}));
+
+class w {
+  constructor(e, t) {
+    const i = f.get(p.width, p.height, y || u.medium);
+    return new Size(e / 100 * i.width, t / 100 * i.height)
+  }
+}
+
+const p = Device.screenSize(), y = config.widgetFamily, f = new class {
+  mapper = new Map;
+  defaultSizeMap = {
+    small: {width: 170, height: 170},
+    medium: {width: 378.5, height: 170},
+    large: {width: 378.5, height: 378.5},
+    extraLarge: {width: 795, height: 378.5}
+  };
+
+  register(e, t, i, s, n) {
+    this.mapper.set(e, {
+      small: {width: t[0], height: t[1]},
+      medium: {width: i[0], height: i[1]},
+      large: {width: s[0], height: s[1]},
+      extraLarge: n ? {width: n[0], height: n[1]} : {width: s[0], height: s[1]}
+    })
+  }
+
+  get(e, t, i) {
+    const s = `${e}x${t}`, n = this.mapper.get(s);
+    return n ? n[i] : (console.warn(`Cannot find target size: ${s}! The FlexibleSize will use default data. It's not accurate!`), this.defaultSizeMap[i])
+  }
+};
+f.register("428x926", [170, 170], [364, 170], [364, 382]), f.register("414x896", [169, 169], [360, 169], [360, 379]), f.register("414x736", [159, 159], [348, 157], [348, 357]), f.register("390x844", [158, 158], [338, 158], [338, 354]), f.register("375x812", [155, 155], [329, 155], [329, 345]), f.register("375x667", [148, 148], [321, 148], [321, 324]), f.register("360x780", [155, 155], [329, 155], [329, 345]), f.register("320x568", [141, 141], [292, 141], [292, 311]), f.register("768x1024", [141, 141], [305.5, 141], [305.5, 305.5], [634.5, 305.5]), f.register("1024x768", [141, 141], [305.5, 141], [305.5, 305.5], [634.5, 305.5]), f.register("810x1080", [146, 146], [320.5, 146], [320.5, 320.5], [669, 320.5]), f.register("1080x810", [146, 146], [320.5, 146], [320.5, 320.5], [669, 320.5]), f.register("834x1112", [150, 150], [327.5, 150], [327.5, 327.5], [682, 327.5]), f.register("1112x834", [150, 150], [327.5, 150], [327.5, 327.5], [682, 327.5]), f.register("820x1180", [155, 155], [342, 155], [342, 342], [715.5, 342]), f.register("1180x820", [155, 155], [342, 155], [342, 342], [715.5, 342]), f.register("834x1194", [155, 155], [342, 155], [342, 342], [715.5, 342]), f.register("1194x834", [155, 155], [342, 155], [342, 342], [715.5, 342]), f.register("1024x1366", [170, 170], [378.5, 170], [378.5, 378.5], [795, 378.5]), f.register("1366x1024", [170, 170], [378.5, 170], [378.5, 378.5], [795, 378.5]);
+var C, S = o.HY, b = o.tZ, k = o.BX, I = o.sY;
+
+async function A(e, t) {
+  if ("0" === this.settings.showBackgroundImage) {
+    const t = new LinearGradient, i = this.settings.bgColorInLight.split(","),
+      s = this.settings.bgColorInDark.split(","), n = [];
+    i.forEach(((e, t) => {
+      const o = Color.dynamic(new Color(i[t], 1), new Color(s[t], 1));
+      n.push(o)
+    })), t.colors = n, t.locations = this.settings.bgColorGradient.split(",").map((e => parseFloat(e))), e.backgroundGradient = t
+  }
+  if ("1" === this.settings.showBackgroundImage) {
+    const i = C[t];
+    e.backgroundImage = this.getCacheImage(`backgroundImage${i}`)
+  }
+  let i = await this.getImageByUrl(this.settings.defaultCarImageUrl),
+    s = await this.getImageByUrl(this.settings.defaultLogoImageUrl);
+  return this.settings.myCarPhoto && "" !== this.settings.myCarPhoto && (i = this.getCacheImage(this.settings.myCarPhoto)), this.settings.myCarLogo && "" !== this.settings.myCarLogo && (s = this.getCacheImage(this.settings.myCarLogo)), {
+    carImage: i,
+    carLogo: s
+  }
+}
+
+function x(e) {
+  const {children: t, settings: i, size: s, type: n, color: o, ...a} = e;
+  let r = new Font(i.fontFamilyInRegular, s);
+  "bold" === n && (r = new Font(i.fontFamilyInBold, s));
+  const l = o ?? Color.dynamic(new Color(i.textColorInLight), new Color(i.textColorInDark)),
+    c = Color.dynamic(new Color(i.textShadowColorInLight), new Color(i.textShadowColorInDark)),
+    h = "1" === i.showTextShadow ? s / 20 == 1 ? 1 : 1 - s / 20 : 0, g = new Point(s / 20, s / 20);
+  return b("text", {font: r, textColor: l, shadowColor: c, shadowRadius: h, shadowOffset: g, ...a, children: t})
+}
+
+async function F(i) {
+  const s = new ListWidget, {carImage: n} = await A.bind(this)(s, "small"), o = e(180, 180),
+    a = {size: 180, radius: 80, width: 15, percent: parseInt(i.fuelLevel, 10)};
+  t(o, a, "#43CD80", "#000000", .2);
+  const r = this.settings;
+  return I(b((() => k("stack", {
+    layoutVertically: !0,
+    backgroundImage: o.getImage(),
+    children: [b("spacer", {}), k("stack", {
+      layoutVertically: !0,
+      centerAlignContent: !0,
+      children: [b("spacer", {}), k("stack", {
+        centerAlignContent: !0,
+        children: [b("spacer", {}), b("image", {source: n, centerAlignImage: !0}), b("spacer", {})]
+      }), k("stack", {
+        centerAlignContent: !0,
+        children: [b("spacer", {}), b(x, {settings: r, size: 14, children: `${i.fuelRange}公里`}), b("spacer", {})]
+      }), b("spacer", {})]
+    }), b("spacer", {})]
+  })), {}), s), s
+}
+
+!function (e) {
+  e.small = "Small", e.medium = "Medium", e.large = "Large"
+}(C || (C = {}));
+const L = e => {
+  if (null === e) return null;
+  const t = {...e};
+  return Object.keys(t).forEach((i => t[i] = "object" == typeof e[i] ? L(e[i]) : e[i])), Array.isArray(e) && e.length ? (t.length = e.length) && Array.from(t) : Array.isArray(e) ? Array.from(e) : t
+}, v = e => {
+  let t = (new Date).valueOf() / 1e3 - e / 1e3;
+  if (t >= 0) {
+    if (t < 60) return "刚刚";
+    const e = t / 60;
+    if (e < 60) return Math.floor(e) + "分钟前";
+    const i = t / 3600;
+    if (i < 24) return Math.floor(i) + "小时前";
+    const s = t / 3600 / 24;
+    if (s < 30) return Math.floor(s) + "天前";
+    const n = t / 3600 / 24 / 30;
+    if (n < 12) return Math.floor(n) + "月前";
+    const o = t / 3600 / 24 / 30 / 12;
+    return Math.floor(o) + "年前"
+  }
+  {
+    if (t = Math.abs(t), t < 60) return "不足一分钟";
+    const e = t / 60;
+    if (e < 60) return Math.floor(e) + "分钟后";
+    const i = t / 3600;
+    if (i < 24) return Math.floor(i) + "小时后";
+    const s = t / 3600 / 24;
+    if (s < 30) return Math.floor(s) + "天后";
+    const n = t / 3600 / 24 / 30;
+    if (n < 12) return Math.floor(n) + "月后";
+    const o = t / 3600 / 24 / 30 / 12;
+    return Math.floor(o) + "年后"
+  }
+}, T = (e, t) => {
+  const i = [];
+  return e.forEach(((e, s) => {
+    const n = Math.floor(s / t);
+    i[n] || (i[n] = []), i[n].push(e)
+  })), i
+}, M = (e = new Date, t = "MM-dd HH:mm") => {
+  const i = new DateFormatter;
+  i.dateFormat = t;
+  const s = new Date(e);
+  return i.string(s)
+};
+
+async function D(e) {
+  const t = new ListWidget, {carImage: i, carLogo: s} = await A.bind(this)(t, "medium"),
+    n = e.isLocked ? this.successColor() : this.dangerColor(), o = [...e.doorStatus, ...e.windowStatus],
+    a = this.settings, r = parseInt(a.logoWidth || this.defaultLogoWidth, 10),
+    l = parseInt(a.logoHeight || this.defaultLogoHeight, 10),
+    c = Color.dynamic(new Color(a.textColorInLight), new Color(a.textColorInDark));
+  return I(b((() => k("stack", {
+    layoutVertically: !0,
+    children: [k("stack", {
+      children: [k("stack", {
+        layoutVertically: !0,
+        children: [b("stack", {
+          children: b(x, {
+            settings: a,
+            size: 18,
+            type: "bold",
+            children: e.seriesName
+          })
+        }), b("stack", {children: b(x, {settings: a, size: 12, children: e.carModelName})})]
+      }), b("spacer", {}), b("stack", {
+        centerAlignContent: !0,
+        size: new Size(r < 90 ? 90 : r, l < 32 ? 32 : l),
+        children: k("stack", {
+          layoutVertically: !0,
+          children: [k("stack", {
+            centerAlignContent: !0,
+            children: [b("spacer", {}), k("stack", {
+              centerAlignContent: !0,
+              children: [k("stack", {
+                centerAlignContent: !0,
+                children: [b("image", {
+                  source: SFSymbol.named("lock.shield").image,
+                  imageSize: new Size(18, 18),
+                  tintColor: n
+                }), 0 !== o.length ? b("image", {
+                  source: SFSymbol.named("xmark.shield").image,
+                  imageSize: new Size(18, 18),
+                  tintColor: this.warningColor()
+                }) : b(S, {}), b("spacer", {length: 5})]
+              }), b("image", {
+                source: s,
+                imageSize: new Size(r, l),
+                tintColor: "0" === a.showLogoTint ? c : null,
+                centerAlignImage: !0
+              })]
+            })]
+          }), e.showPlate ? k("stack", {
+            children: [b("spacer", {}), b("stack", {
+              children: b(x, {
+                settings: a,
+                size: 12,
+                type: "bold",
+                children: e.carPlateNo
+              })
+            })]
+          }) : b(S, {})]
+        })
+      })]
+    }), k("stack", {
+      children: [k("stack", {
+        layoutVertically: !0,
+        children: [b("spacer", {}), k("stack", {
+          bottomAlignContent: !0,
+          children: ["1" === a.showTextDesc ? b(x, {
+            settings: a,
+            size: 14,
+            children: "车辆状态:"
+          }) : b(S, {
+            children: b("image", {
+              source: SFSymbol.named("align.horizontal.center" + ("1" === a.showIconSolid ? ".fill" : "")).image,
+              imageSize: new Size(20, 20),
+              tintColor: c
+            })
+          }), b("spacer", {length: 3}), b(x, {
+            settings: a,
+            size: 14,
+            type: "bold",
+            children: `${e.fuelRange}${"1" === a.showKMUnit ? "km" : "公里"}`
+          }), "1" === a.showMediumStatusTime1 ? k(S, {
+            children: [b("spacer", {length: 2}), b(x, {
+              settings: a,
+              size: 13,
+              type: "bold",
+              children: `${e.fuelLevel}%`
+            }), e.socLevel ? k(S, {
+              children: [b("spacer", {length: 2}), b(x, {
+                settings: a,
+                size: 12,
+                children: `${e.socLevel}%`
+              })]
+            }) : b(S, {})]
+          }) : b(S, {})]
+        }), "0" === a.showMediumStatusTime1 ? k(S, {
+          children: [b("spacer", {length: 2}), k("stack", {
+            centerAlignContent: !0,
+            children: ["1" === a.showTextDesc ? b(x, {
+              settings: a,
+              size: 14,
+              children: "能源状态:"
+            }) : b(S, {
+              children: b("image", {
+                source: SFSymbol.named("shippingbox" + ("1" === a.showIconSolid ? ".fill" : "")).image,
+                imageSize: new Size(20, 20),
+                tintColor: c
+              })
+            }), b("spacer", {length: 3}), b(x, {
+              settings: a,
+              size: 14,
+              type: "bold",
+              children: `${e.fuelLevel}%`
+            }), e.socLevel ? k(S, {
+              children: [b("spacer", {length: 3}), b(x, {
+                settings: a,
+                size: 14,
+                children: `${e.socLevel}%`
+              })]
+            }) : b(S, {})]
+          })]
+        }) : b(S, {}),b("spacer", {length: 2}), k("stack", {
+          bottomAlignContent: !0,
+          children: ["1" === a.showTextDesc ? b(x, {
+            settings: a,
+            size: 14,
+            children: "行程里程:"
+          }) : b(S, {
+            children: b("image", {
+              source: SFSymbol.named("globe.asia.australia" + ("1" === a.showIconSolid ? ".fill" : "")).image,
+              imageSize: new Size(20, 20),
+              tintColor: c
+            })
+          }), b("spacer", {length: 3}), b(x, {
+            settings: a,
+            size: 14,
+            type: "bold",
+            children: `${e.mileage}${"1" === a.showKMUnit ? "km" : "公里"}`
+          })]
+        }),"1" === a.showMediumStatusTime1 ? k(S, {
+          children: [b("spacer", {length: 2}), k("stack", {
+            bottomAlignContent: !0,
+            children: ["1" === a.showTextDesc ? b(x, {
+              settings: a,
+              size: 14,
+              children: "云端刷新:"
+            }) : b(S, {
+              children: b("image", {
+                source: SFSymbol.named("arrow.clockwise.icloud" + ("1" === a.showIconSolid ? ".fill" : "")).image,
+                imageSize: new Size(20, 20),
+                tintColor: c
+              })
+            }), b("spacer", {length: 3}), b(x, {
+              settings: a,
+              size: 14,
+              type: "bold",
+              children: a.dateMediumFormat ? M(new Date(e.updateTimeStamp), a.dateMediumFormat) : v(e.updateTimeStamp)
+            })]
+          })]
+        }) : b(S, {}), b("spacer", {})]
+      }), b("spacer", {}), b("stack", {children: b("image", {source: i, centerAlignImage: !0})})]
+    }), k("stack", {
+      children: [b("spacer", {}), e.showLocation && "1" === a.showMediumLocation ? b(S, {
+        children: b(x, {
+          settings: a,
+          size: 10,
+          centerAlignText: !0,
+          children: "" !== a.locationMediumFormat ? e.customMediumAddress : e.defaultAddress
+        })
+      }) : b(S, {}), "" !== a.separatorLocationMyOneForMedium ? b(x, {
+        settings: a,
+        size: 10,
+        centerAlignText: !0,
+        children: a.separatorLocationMyOneForMedium
+      }) : b(S, {}), "1" === a.showMediumMyOne ? b(S, {
+        children: b(x, {
+          settings: a,
+          size: 10,
+          centerAlignText: !0,
+          children: e.myOne
+        })
+      }) : b(S, {}), b("spacer", {})]
+    })]
+  })), {}), t), t
+}
+
+async function R(e) {
+  const t = new ListWidget, {carImage: i, carLogo: s} = await A.bind(this)(t, "large"),
+    n = [...e.doorStatus, ...e.windowStatus], o = this.settings,
+    a = 1.5 * parseInt(o.logoWidth || this.defaultLogoWidth, 10),
+    r = 1.5 * parseInt(o.logoHeight || this.defaultLogoHeight, 10),
+    l = Color.dynamic(new Color(o.textColorInLight), new Color(o.textColorInDark)), c = e => {
+      const {children: t, type: i} = e;
+      let s = (e = 1) => Color.dynamic(new Color(o.textColorInLight, e), new Color(o.textColorInDark, e));
+      return "1" === o.showLargeLockColorStyle && (s = this.successColor), "abnormal" === i && (s = this.warningColor), k("stack", {
+        cornerRadius: 10,
+        borderWidth: 3,
+        borderColor: s(.5),
+        backgroundColor: s(.25),
+        centerAlignContent: !0,
+        layoutVertically: !0,
+        children: [b("spacer", {length: 6}), k("stack", {
+          children: [b("spacer", {length: 12}), k("stack", {
+            children: [b("image", {
+              source: "abnormal" === i ? SFSymbol.named("xmark.shield").image : SFSymbol.named("checkmark.shield").image,
+              imageSize: new Size(18, 18),
+              tintColor: s()
+            }), b("spacer", {length: 2}), b(x, {settings: o, size: 12, color: s(), children: t})]
+          }), b("spacer", {length: 10})]
+        }), b("spacer", {length: 6})]
+      })
+    }, h = () => b(S, {
+      children: k("stack", n.length > 4 ? {
+        centerAlignContent: !0,
+        children: [b("spacer", {}), b("stack", {
+          layoutVertically: !0,
+          centerAlignContent: !0,
+          children: T(n, 2).map(((e, t) => k(S, {
+            children: [b("spacer", {length: 10}), b("stack", {
+              children: e.map(((e, t) => k("stack", {
+                children: [b("spacer", {length: 5}), k("stack", {
+                  children: [b("image", {
+                    source: SFSymbol.named("xmark.shield").image,
+                    imageSize: new Size(18, 18),
+                    tintColor: this.warningColor()
+                  }), b("spacer", {length: 2}), b(x, {settings: o, size: 14, color: this.warningColor(), children: e})]
+                }), b("spacer", {length: 5})]
+              }, t)))
+            }, t)]
+          })))
+        }), b("spacer", {})]
+      } : {
+        layoutVertically: !0,
+        children: [k("stack", {
+          children: [b("spacer", {}), b("image", {
+            source: i,
+            centerAlignImage: !0
+          }), b("spacer", {})]
+        }), k("stack", {
+          centerAlignContent: !0,
+          children: [b("spacer", {}), b("stack", {
+            layoutVertically: !0,
+            centerAlignContent: !0,
+            children: T(n, 2).map(((e, t) => k(S, {
+              children: [b("spacer", {length: 10}), b("stack", {
+                centerAlignContent: !0,
+                children: e.map(((e, t) => k("stack", {
+                  children: [b("spacer", {length: 5}), b(c, {
+                    type: "abnormal",
+                    children: e
+                  }), b("spacer", {length: 5})]
+                }, t)))
+              }, t)]
+            })))
+          }), b("spacer", {})]
+        })]
+      })
+    });
+  return I(b((() => k("stack", {
+    layoutVertically: !0,
+    children: [k("stack", {
+      children: [k("stack", {
+        layoutVertically: !0,
+        children: [b("stack", {
+          children: b(x, {
+            settings: o,
+            size: 20,
+            type: "bold",
+            children: e.seriesName
+          })
+        }), b("stack", {children: b(x, {settings: o, size: 14, children: e.carModelName})})]
+      }), b("spacer", {}), b("stack", {
+        centerAlignContent: !0,
+        size: new Size(a < 90 ? 90 : a, r < 42 ? 42 : r),
+        children: k("stack", {
+          layoutVertically: !0,
+          children: [k("stack", {
+            centerAlignContent: !0,
+            children: [b("spacer", {}), b("image", {
+              source: s,
+              imageSize: new Size(a, r),
+              tintColor: "0" === o.showLogoTint ? l : null,
+              centerAlignImage: !0
+            })]
+          }), e.showPlate ? k("stack", {
+            children: [b("spacer", {}), b("stack", {
+              children: b(x, {
+                settings: o,
+                size: 14,
+                type: "bold",
+                children: e.carPlateNo
+              })
+            })]
+          }) : b(S, {})]
+        })
+      })]
+    }), k("stack", {
+      children: [k("stack", {
+        layoutVertically: !0,
+        children: [b("spacer", {}), k("stack", {
+          centerAlignContent: !0,
+          children: ["1" === o.showTextDesc ? b(x, {
+            settings: o,
+            size: 14,
+            children: "续航里程:"
+          }) : b(S, {
+            children: b("image", {
+              source: SFSymbol.named("car" + ("1" === o.showIconSolid ? ".fill" : "")).image,
+              imageSize: new Size(20, 20),
+              tintColor: l
+            })
+          }), b("spacer", {length: 3}), b(x, {
+            settings: o,
+            size: 14,
+            type: "bold",
+            children: `${e.fuelRange}${"1" === o.showKMUnit ? "km" : "公里"}`
+          })]
+        }), b("spacer", {length: 5}), k("stack", {
+          centerAlignContent: !0,
+          children: ["1" === o.showTextDesc ? b(x, {
+            settings: o,
+            size: 14,
+            children: "油量状态:"
+          }) : b(S, {
+            children: b("image", {
+              source: SFSymbol.named("bolt" + ("1" === o.showIconSolid ? ".fill" : "")).image,
+              imageSize: new Size(20, 20),
+              tintColor: l
+            })
+          }), b("spacer", {length: 3}), b(x, {settings: o, size: 14, type: "bold", children: `${e.fuelLevel}%`})]
+        }), e.socLevel ? k(S, {
+          children: [b("spacer", {length: 5}), k("stack", {
+            centerAlignContent: !0,
+            children: ["1" === o.showTextDesc ? b(x, {
+              settings: o,
+              size: 14,
+              children: "电能状态:"
+            }) : b(S, {
+              children: b("image", {
+                source: SFSymbol.named("bolt" + ("1" === o.showIconSolid ? ".fill" : "")).image,
+                imageSize: new Size(20, 20),
+                tintColor: l
+              })
+            }), b("spacer", {length: 3}), b(x, {settings: o, size: 14, type: "bold", children: `${e.socLevel}%`})]
+          })]
+        }) : b(S, {}), e.oilSupport ? k(S, {
+          children: [b("spacer", {length: 5}), k("stack", {
+            centerAlignContent: !0,
+            children: ["1" === o.showTextDesc ? b(x, {
+              settings: o,
+              size: 14,
+              children: "机油状态:"
+            }) : b(S, {
+              children: b("image", {
+                source: SFSymbol.named("drop" + ("1" === o.showIconSolid ? ".fill" : "")).image,
+                imageSize: new Size(20, 20),
+                tintColor: l
+              })
+            }), b("spacer", {length: 3}), b(x, {
+              settings: o,
+              size: 14,
+              type: "bold",
+              children: "12.5" === e.oilLevel ? "N/A" : `${e.oilLevel}%`
+            })]
+          })]
+        }) : b(S, {}),
+        //   b("spacer", {length: 5}), k("stack", {
+        //   centerAlignContent: !0,
+        //   children: ["1" === o.showTextDesc ? b(x, {
+        //     settings: o,
+        //     size: 14,
+        //     children: "行程里程:"
+        //   }) : b(S, {
+        //     children: b("image", {
+        //       source: SFSymbol.named("globe.asia.australia" + ("1" === o.showIconSolid ? ".fill" : "")).image,
+        //       imageSize: new Size(20, 20),
+        //       tintColor: l
+        //     })
+        //   }), b("spacer", {length: 3}), b(x, {
+        //     settings: o,
+        //     size: 14,
+        //     type: "bold",
+        //     children: `${e.mileage}${"1" === o.showKMUnit ? "km" : "公里"}`
+        //   })]
+        // }),
+          b("spacer", {length: 5}), k("stack", {
+          centerAlignContent: !0,
+          children: ["1" === o.showTextDesc ? b(x, {
+            settings: o,
+            size: 14,
+            color: e.isLocked ? "1" === o.showLargeLockColorStyle ? this.successColor() : null : this.dangerColor(),
+            children: "车辆状态:"
+          }) : b(S, {
+            children: b("image", {
+              source: SFSymbol.named("lock" + ("1" === o.showIconSolid ? ".fill" : "")).image,
+              imageSize: new Size(20, 20),
+              tintColor: e.isLocked ? "1" === o.showLargeLockColorStyle ? this.successColor() : l : this.dangerColor()
+            })
+          }), b("spacer", {length: 3}), b(x, {
+            settings: o,
+            size: 14,
+            type: "bold",
+            color: e.isLocked ? "1" === o.showLargeLockColorStyle ? this.successColor() : null : this.dangerColor(),
+            children: e.isLocked ? "已锁车" : "未锁车"
+          })]
+        }), "1" === o.showLargeStatusTime1 ? k(S, {
+          children: [b("spacer", {length: 5}), k("stack", {
+            centerAlignContent: !0,
+            children: ["1" === o.showTextDesc ? b(x, {
+              settings: o,
+              size: 14,
+              children: "云端刷新:"
+            }) : b(S, {
+              children: b("image", {
+                source: SFSymbol.named("arrow.clockwise.icloud" + ("1" === o.showIconSolid ? ".fill" : "")).image,
+                imageSize: new Size(20, 20),
+                tintColor: l
+              })
+            }), b("spacer", {length: 3}), b(x, {
+              settings: o,
+              size: 14,
+              type: "bold",
+              children: o.dateLargeFormat ? M(new Date(e.updateTimeStamp), o.dateLargeFormat) : v(e.updateTimeStamp)
+            })]
+          })]
+        }) : b(S, {}), "1" === o.showLargeStatusTime2 ? k(S, {
+          children: [b("spacer", {length: 5}), k("stack", {
+            centerAlignContent: !0,
+            children: ["1" === o.showTextDesc ? b(x, {
+              settings: o,
+              size: 14,
+              children: "本地刷新:"
+            }) : b(S, {
+              children: b("image", {
+                source: SFSymbol.named("clock" + ("1" === o.showIconSolid ? ".fill" : "")).image,
+                imageSize: new Size(20, 20),
+                tintColor: l
+              })
+            }), b("spacer", {length: 3}), b(x, {
+              settings: o,
+              size: 14,
+              type: "bold",
+              children: o.dateLargeFormat ? M(new Date(e.updateNowDate), o.dateLargeFormat) : v(e.updateNowDate)
+            })]
+          })]
+        }) : b(S, {}), "1" === o.showLargeTemperature ? k(S, {
+          children: [b("spacer", {length: 5}), k("stack", {
+            centerAlignContent: !0,
+            children: ["1" === o.showTextDesc ? b(x, {
+              settings: o,
+              size: 14,
+              children: "环境温度:"
+            }) : b(S, {
+              children: b("image", {
+                source: SFSymbol.named("fanblades" + ("1" === o.showIconSolid ? ".fill" : "")).image,
+                imageSize: new Size(20, 20),
+                tintColor: l
+              })
+            }), b("spacer", {length: 3}), b(x, {
+              settings: o,
+              size: 14,
+              type: "bold",
+              children: `${e.outdoorTemperature}°C`
+            })]
+          })]
+        }) : b(S, {}), e.showLargeMaintKM ? k(S, {
+          children: [b("spacer", {length: 5}), k("stack", {
+            centerAlignContent: !0,
+            children: ["1" === o.showTextDesc ? b(x, {
+              settings: o,
+              size: 14,
+              children: "保养里程:"
+            }) : b(S, {
+              children: b("image", {
+                source: SFSymbol.named("wrench.and.screwdriver" + ("1" === o.showIconSolid ? ".fill" : "")).image,
+                imageSize: new Size(20, 20),
+                tintColor: l
+              })
+            }), b("spacer", {length: 3}), b(x, {
+              settings: o,
+              size: 14,
+              type: "bold",
+              children: `${e.largeMaintKM}${"1" === o.showKMUnit ? "km" : "公里"}`
+            })]
+          })]
+        }) : b(S, {}), e.showLargeMaintDate ? k(S, {
+          children: [b("spacer", {length: 5}), k("stack", {
+            centerAlignContent: !0,
+            children: ["1" === o.showTextDesc ? b(x, {
+              settings: o,
+              size: 14,
+              children: "保养日期:"
+            }) : b(S, {
+              children: b("image", {
+                source: SFSymbol.named("hammer" + ("1" === o.showIconSolid ? ".fill" : "")).image,
+                imageSize: new Size(20, 20),
+                tintColor: l
+              })
+            }), b("spacer", {length: 3}), b(x, {settings: o, size: 14, type: "bold", children: e.largeMaintDate})]
+          })]
+        }) : b(S, {}), e.showLargeCheckDate ? k(S, {
+          children: [b("spacer", {length: 5}), k("stack", {
+            centerAlignContent: !0,
+            children: ["1" === o.showTextDesc ? b(x, {
+              settings: o,
+              size: 14,
+              children: "年检日期:"
+            }) : b(S, {
+              children: b("image", {
+                source: SFSymbol.named("house" + ("1" === o.showIconSolid ? ".fill" : "")).image,
+                imageSize: new Size(20, 20),
+                tintColor: l
+              })
+            }), b("spacer", {length: 3}), b(x, {settings: o, size: 14, type: "bold", children: e.largeCheckDate})]
+          })]
+        }) : b(S, {}), e.showLargeInsuranceDate ? k(S, {
+          children: [b("spacer", {length: 5}), k("stack", {
+            centerAlignContent: !0,
+            children: ["1" === o.showTextDesc ? b(x, {
+              settings: o,
+              size: 14,
+              children: "保险日期:"
+            }) : b(S, {
+              children: b("image", {
+                source: SFSymbol.named("archivebox" + ("1" === o.showIconSolid ? ".fill" : "")).image,
+                imageSize: new Size(20, 20),
+                tintColor: l
+              })
+            }), b("spacer", {length: 3}), b(x, {settings: o, size: 14, type: "bold", children: e.largeInsuranceDate})]
+          })]
+        }) : b(S, {}), b("spacer", {})]
+      }), b("spacer", {}), k("stack", {
+        layoutVertically: !0,
+        children: [b("spacer", {}), 0 === n.length ? k("stack", {
+          layoutVertically: !0,
+          children: [k("stack", {
+            children: [b("spacer", {}), b("image", {
+              source: i,
+              centerAlignImage: !0
+            }), b("spacer", {})]
+          }), b("spacer", {length: 20}), k("stack", {
+            children: [b("spacer", {}), b(c, {
+              type: "normal",
+              children: "当前门窗已全关闭"
+            }), b("spacer", {})]
+          })]
+        }) : b(h, {}), b("spacer", {})]
+      })]
+    }), e.showLocation && "1" === o.showLargeLocation ? k(S, {
+      children: [k("stack", {
+        children: [b("spacer", {}), b(x, {
+          settings: o,
+          size: 12,
+          centerAlignText: !0,
+          children: "" !== o.locationLargeFormat ? e.customLargeAddress : e.defaultAddress
+        }), b("spacer", {})]
+      }), b("spacer", {length: 4})]
+    }) : b(S, {}), "1" === o.showLargeMyOne ? b(S, {
+      children: k("stack", {
+        children: [b("spacer", {}), b(x, {
+          settings: o,
+          size: 12,
+          centerAlignText: !0,
+          children: e.myOne
+        }), b("spacer", {})]
+      })
+    }) : b(S, {})]
+  })), {}), t), t
+}
+
+async function z(e) {
+  const t = new ListWidget, i = this.settings, s = [...e.doorStatus, ...e.windowStatus];
+  return I(b((() => k("stack", {
+    layoutVertically: !0,
+    children: [b("spacer", {}), k("stack", {
+      children: [k("stack", {
+        layoutVertically: !0,
+        children: [b("spacer", {}), b("image", {
+          source: SFSymbol.named("car" + ("1" === i.showIconSolid ? ".fill" : "")).image,
+          imageSize: new Size(20, 20),
+          tintColor: Color.white()
+        }), b("spacer", {})]
+      }), b("spacer", {length: 5}), k("stack", {
+        layoutVertically: !0,
+        centerAlignContent: !0,
+        children: [b("stack", {
+          centerAlignContent: !0,
+          children: b("text", {font: Font.systemFont(12), centerAlignText: !0, children: "当前车辆状态"})
+        }), b("stack", {
+          centerAlignContent: !0,
+          children: b("text", {
+            font: Font.systemFont(14),
+            textColor: Color.white(),
+            centerAlignText: !0,
+            children: e.isLocked && 0 === s.length ? "一切正常" : e.isLocked || 0 !== s.length ? e.isLocked && 0 !== s.length ? "未关门窗" : e.isLocked || 0 === s.length ? void 0 : "车辆异常" : "未锁车"
+          })
+        })]
+      })]
+    }), b("spacer", {})]
+  })), {}), t), t
+}
+
+async function O(i) {
+  const s = new ListWidget, n = e(180, 180), o = {size: 180, radius: 80, width: 18, percent: parseInt(i.fuelLevel, 10)};
+  t(n, o, "#43CD80", "#000000", .2);
+  const a = this.settings;
+  return I(b((() => k("stack", {
+    layoutVertically: !0,
+    backgroundImage: n.getImage(),
+    children: [b("spacer", {}), k("stack", {
+      layoutVertically: !0,
+      centerAlignContent: !0,
+      children: [b("spacer", {}), k("stack", {
+        children: [b("spacer", {}), b("image", {
+          source: SFSymbol.named("fuelpump" + ("1" === a.showIconSolid ? ".fill" : "")).image,
+          imageSize: new Size(18, 18),
+          tintColor: Color.white()
+        }), b("spacer", {})]
+      }), b("spacer", {})]
+    }), b("spacer", {})]
+  })), {}), s), s
+}
+
+await (async e => {
+  if (config.runsInWidget) {
+    const t = new e(args.widgetParameter || ""), i = await t.render(), s = t.settings.refreshAfterDate;
+    i.refreshAfterDate = "0" === s ? null : new Date((new Date).valueOf() + 6e4 * Number(s)), Script.setWidget(i), Script.complete()
+  }
+  if (config.runsWithSiri) {
+    const t = new e, i = await t.siriShortcutData();
+    Script.setShortcutOutput(i)
+  }
+  if (config.runsInApp) {
+    const t = new e, i = await t.customRunningTableUIInit(), s = await (async (e, t) => {
+      const i = new UITable, s = t.banner || {},
+        n = s.headerLeft || "https://img.alicdn.com/imgextra/i3/2038135983/O1CN01I63qnz1u4GQlg9gHR_!!2038135983.png",
+        o = s.headerRight || "https://img.alicdn.com/imgextra/i2/2038135983/O1CN01MDqJFm1u4GQsVNZsX_!!2038135983.png",
+        a = new UITableRow, r = await e.getImageByUrl(n), l = await e.getImageByUrl(o);
+      return a.addImage(r).leftAligned(), a.addText(s.headerText || "Joiner").centerAligned(), a.addImage(l).rightAligned(), a.isHeader = !0, i.addRow(a), i
+    })(t, i), n = async e => {
+      t.widgetFamily = e.size;
+      const i = await t.render();
+      await i[`present${e.value}`]()
+    }, o = [{
+      icon: {name: "capsule", color: "#4E9799"},
+      title: "小尺寸",
+      value: "Small",
+      size: "small",
+      onClick: n
+    }, {
+      icon: {name: "rectangle", color: "#5FC998"},
+      title: "中尺寸",
+      value: "Medium",
+      size: "medium",
+      onClick: n
+    }, {title: "大尺寸", icon: {name: "square", color: "#406499"}, value: "Large", size: "large", onClick: n}];
+    await t.renderRow(s, o, "预览组件");
+    const a = [];
+    for (const e in t.actions) {
+      const i = t.actionsIcon[e], s = "string" == typeof i, n = {title: e, onClick: t.actions[e]};
+      s ? n.url = i : n.icon = i, a.push(n)
+    }
+    await t.renderRow(s, a, "配置组件"), await t.customRunningTableUIInAfter(s), await s.present()
+  }
+})(class extends class extends class extends class extends class {
+  actions = {};
+  actionsIcon = {};
+  fileMGR = module.filename.includes("Documents/iCloud~") ? FileManager.iCloud() : FileManager.local();
+  cacheFolder = `JoinerCache-${this.hash(Script.name())}/`;
+  cacheFolderPath = FileManager.local().joinPath(FileManager.local().temporaryDirectory(), this.cacheFolder);
+  libraryFolder = `JoinerLibrary-${this.hash(Script.name())}/`;
+  libraryFolderFolderPath = FileManager.local().joinPath(FileManager.local().libraryDirectory(), this.libraryFolder);
+  fileFolder = "Joiner";
+  fileFolderPath = this.fileMGR.joinPath(this.fileMGR.documentsDirectory(), this.fileFolder);
+  uses_iCloud = module.filename.includes("Documents/iCloud~");
+
+  constructor(e = "") {
+    this.args = e, this.init()
+  }
+
+  init(e = config.widgetFamily) {
+    this.fileMGR.fileExists(this.fileFolderPath) || this.fileMGR.createDirectory(this.fileFolderPath, !0), FileManager.local().fileExists(this.libraryFolderFolderPath) || FileManager.local().createDirectory(this.libraryFolderFolderPath, !0), this.widgetFamily = e, this.settingKey = this.hash(Script.name()), this.actions = {}, this.actionsIcon = {}, this.getSettingsCore()
+  }
+
+  getSettingsDefaultCoreKeys() {
+    return {
+      refreshAfterDate: "0",
+      textColorInLight: "#000000",
+      textColorInDark: "#ffffff",
+      showTextShadow: "0",
+      textShadowColorInLight: "#000000",
+      textShadowColorInDark: "#ffffff",
+      fontFamilyInRegular: "PingFangSC-Regular",
+      fontFamilyInBold: "PingFangSC-Medium",
+      bgColorInLight: "#ffffff,#dbefff",
+      bgColorInDark: "#414345,#232526",
+      bgColorGradient: "0.0,1.0",
+      showBackgroundImage: "0",
+      backgroundImageSmall: "",
+      backgroundImageMedium: "",
+      backgroundImageLarge: "",
+      widgetRecordDate: (new Date).valueOf(),
+      widgetErrorLogs: []
+    }
+  }
+
+  getSettingsCore() {
+    this.settings = this.getSettings();
+    const e = this.getSettingsDefaultCoreKeys();
+    for (const t in e) this.settings[t] = this.settings[t] || e[t];
+    this.saveSettings(!1).then((() => this.getSettingsPlugin()))
+  }
+
+  getSettingsDefaultPluginKeys() {
+    return {}
+  }
+
+  getSettingsPlugin() {
+  }
+
+  getSettings(e = !0, t = this.settingKey) {
+    let i = "";
+    Keychain.contains(t) && (i = Keychain.get(t));
+    try {
+      return e ? JSON.parse(i) : i
+    } catch (i) {
+      console.warn("存储键值对象不存在，创建对象：" + i.toString());
+      const s = e ? JSON.stringify({}) : "";
+      return Keychain.set(t, s), this.writeError({error: i.toString()}).then(), e ? JSON.parse(s) : s
+    }
+  }
+
+  async saveSettings(e = !0) {
+    const t = "object" == typeof this.settings ? JSON.stringify(this.settings) : String(this.settings);
+    Keychain.set(this.settingKey, t), e && await this.notify("设置成功", "桌面组件稍后将自动刷新")
+  }
+
+  async getImportConfigure() {
+    const e = this.fileMGR.joinPath(this.fileFolderPath, `${Script.name()}.json`);
+    if (this.fileMGR.fileExists(e)) {
+      this.uses_iCloud && await this.fileMGR.downloadFileFromiCloud(e);
+      const t = this.fileMGR.readString(e);
+      return JSON.parse(t)
+    }
+    return await this.fileMGR.writeString(e, "{}"), {}
+  }
+
+  async importConfigure(e, t = !0) {
+    const i = this.fileMGR.joinPath(this.fileFolderPath, `${Script.name()}.json`);
+    this.uses_iCloud && await this.fileMGR.downloadFileFromiCloud(i), await this.fileMGR.writeString(i, JSON.stringify(e)), t && await this.notify("设置成功", "桌面组件稍后将自动刷新")
+  }
+
+  async notify(e = "", t = "", i, s = {}) {
+    try {
+      let n = new Notification;
+      return n = Object.assign(n, s), n.title = e, n.body = t, i && (n.openURL = i), await n.schedule()
+    } catch (e) {
+      console.warn(e)
+    }
+  }
+
+  async generateAlert(e = "Joiner 提示", t, i, s = null) {
+    const n = new Alert;
+    n.title = e, n.message = t, s && n.addCancelAction(s);
+    for (const e of i) n.addAction(e);
+    return await n.presentAlert()
+  }
+
+  async getImageByUrl(e, t = !0) {
+    const i = this.hash(e), s = this.getCacheImage(i);
+    if (t && s) return s;
+    try {
+      const s = new Request(e), n = await s.loadImage();
+      return t && this.setCacheImage(i, n), n
+    } catch (t) {
+      const i = {url: e, error: t.toString()};
+      await this.writeError(i);
+      const s = new DrawContext;
+      return s.size = new Size(100, 100), s.setFillColor(Color.red()), s.fillRect(new Rect(0, 0, 100, 100)), s.getImage()
+    }
+  }
+
+  async getErrorLog() {
+    const e = this.settings.widgetRecordDate;
+    this.formatDate(new Date(e), "M") != this.formatDate(new Date, "M") && (this.settings.widgetErrorLogs = [], this.settings.widgetRecordDate = (new Date).valueOf(), await this.saveSettings(!1));
+    const t = this.settings.widgetErrorLogs, i = new UITable;
+    i.showSeparators = !0;
+    let s = new UITableRow;
+    const n = s.addText("错误日志", "记录脚本异常行为，每月1号清空");
+    n.titleFont = Font.boldSystemFont(13), n.subtitleFont = Font.systemFont(9), n.subtitleColor = Color.gray(), i.addRow(s);
+    for (const e of t) {
+      s = new UITableRow, s.dismissOnSelect = !1;
+      const t = this.formatDate(new Date(e.time), "yyyy.MM.dd hh:mm:ss"), n = s.addText(e.error, t);
+      n.titleFont = Font.boldSystemFont(13), n.titleColor = Color.red(), n.subtitleFont = Font.systemFont(11), n.subtitleColor = Color.gray(), s.onSelect = async () => {
+        Pasteboard.copy(`${e.name}:\n          ${e.error}\n          url:${e.url}\n          ${t}`), await this.generateAlert("提示", "内容已复制到剪切板", ["知道了"])
+      }, i.addRow(s)
+    }
+    await QuickLook.present(i, !1)
+  }
+
+  async writeError(e) {
+    e.time = +new Date, Array.isArray(this.settings.widgetErrorLogs) || (this.settings.widgetErrorLogs = []), this.settings.widgetErrorLogs.unshift(e), await this.saveSettings(!1)
+  }
+
+  async siriShortcutData() {
+    return {}
+  }
+
+  registerAction(e, t, i = {name: "gearshape", color: "#FF6347"}) {
+    this.actions[e] = t.bind(this), this.actionsIcon[e] = i
+  }
+
+  getCacheImage(e) {
+    const t = FileManager.local(), i = t.joinPath(this.libraryFolderFolderPath, e);
+    return t.fileExists(i) ? Image.fromFile(i) : void 0
+  }
+
+  setCacheImage(e, t) {
+    const i = FileManager.local(), s = i.joinPath(this.libraryFolderFolderPath, e);
+    i.writeImage(s, t)
+  }
+
+  http(e) {
+    const t = e.url, i = e.method || "GET", s = e.headers || {}, n = e.body || "", o = e?.type || "loadJSON",
+      a = e?.timeout || 5, r = e?.secure || !1, l = new Request(t);
+    return l.method = i, l.headers = s, l.timeoutInterval = a, l.allowInsecureRequest = r, "post" === i.toLowerCase() && (l.body = n), l[o]()
+  }
+
+  formatDate(e = new Date, t = "MM-dd HH:mm") {
+    const i = new DateFormatter;
+    i.dateFormat = t;
+    const s = new Date(e);
+    return i.string(s)
+  }
+
+  hash(e) {
+    let t, i, s = 0;
+    for (t = 0; t < e.length; t++) i = e.charCodeAt(t), s = (s << 5) - s + i, s |= 0;
+    return Math.abs(s).toString()
+  }
+} {
+  constructor(e = "") {
+    super(e)
+  }
+
+  async drawTableIcon(e = "square.grid.2x2", t = "#FF7F00", i = 42, s = 42) {
+    const n = this.hash(e + t);
+    let o, a = this.getCacheImage(n);
+    if (a) return a;
+    try {
+      o = SFSymbol.named(e), o.applyFont(Font.mediumSystemFont(30))
+    } catch (e) {
+      o = SFSymbol.named("square.grid.2x2"), o.applyFont(Font.mediumSystemFont(30))
+    }
+    const r = `\n    <img id="sourceImg" src="data:image/png;base64,${Data.fromPNG(o.image).toBase64String()}" alt="source-img"/>\n    <img id="silhouetteImg" src="" alt="silhouette-img"/>\n    <canvas id="mainCanvas" />`,
+      l = new WebView;
+    await l.loadHTML(r);
+    const c = await l.evaluateJavaScript('\n    var canvas = document.createElement("canvas");\n    var sourceImg = document.getElementById("sourceImg");\n    var silhouetteImg = document.getElementById("silhouetteImg");\n    var ctx = canvas.getContext(\'2d\');\n    var size = sourceImg.width > sourceImg.height ? sourceImg.width : sourceImg.height;\n    canvas.width = size;\n    canvas.height = size;\n    ctx.drawImage(sourceImg, (canvas.width - sourceImg.width) / 2, (canvas.height - sourceImg.height) / 2);\n    var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);\n    var pix = imgData.data;\n    // 将图像转换为剪影\n    for (var i = 0, n = pix.length; i < n; i += 4){\n      //set red to 0 设置为红色到0\n      pix[i] = 255;\n      //set green to 0 设置绿色到0\n      pix[i+1] = 255;\n      //set blue to 0 设置为蓝色到0\n      pix[i+2] = 255;\n      //retain the alpha value 保留阿尔法值\n      pix[i+3] = pix[i+3];\n    }\n    ctx.putImageData(imgData,0,0);\n    silhouetteImg.src = canvas.toDataURL();\n    output = canvas.toDataURL()'),
+      h = await new Request(c).loadImage(), g = new Size(160, 160), d = new DrawContext;
+    d.opaque = !1, d.respectScreenScale = !0, d.size = g;
+    const m = new Path, u = new Rect(0, 0, g.width, g.width);
+    m.addRoundedRect(u, i, s), m.closeSubpath(), d.setFillColor(new Color(t)), d.addPath(m), d.fillPath();
+    const w = g.width - 36, p = (g.width - w) / 2;
+    return d.drawImageInRect(h, new Rect(p, p, w, w)), a = d.getImage(), this.setCacheImage(n, a), a
+  }
+
+  async renderRow(e, t = [], i = "", s = !1) {
+    s && e.removeAllRows();
+    const n = new UITableRow;
+    n.addText(i).centerAligned(), e.addRow(n);
+    for (const s of t) {
+      const n = new UITableRow;
+      if (s.explain) {
+        n.height = 24 + 18 * (s.row || 1), n.backgroundColor = Color.dynamic(new Color("#F2F1F6"), new Color("#000000"));
+        const e = n.addText(s.title || "注意说明", s.explain);
+        e.titleFont = Font.mediumSystemFont(12), e.titleColor = Color.dynamic(new Color("#000000", .6), new Color("#FFFFFF", .6)), e.subtitleFont = Font.systemFont(12), e.subtitleColor = Color.dynamic(new Color("#000000", .6), new Color("#FFFFFF", .6))
+      } else if (s.title) {
+        if (n.dismissOnSelect = !!s.dismissOnSelect, s.url) {
+          const e = await this.getImageByUrl(s.url);
+          n.addImage(e).widthWeight = 20
+        }
+        if (s.icon) {
+          const e = s.icon || {}, t = await this.drawTableIcon(e.name, e.color, e.cornerWidth, e.cornerHeight);
+          n.addImage(t).widthWeight = 20
+        }
+        if (s.title) {
+          const e = n.addText(s.title);
+          e.widthWeight = s.type || s.value ? 120 : 160, e.titleFont = Font.systemFont(16)
+        }
+        if ("switch" === s.type) {
+          const e = await this.drawButton(), t = await this.drawButton(!1), i = "1" === this.settings[s.field] ? t : e,
+            o = UITableCell.image(i);
+          o.rightAligned(), o.widthWeight = 40, n.addCell(o)
+        }
+        if (s.value) {
+          const e = n.addText(s.value);
+          e.widthWeight = 40, e.rightAligned(), e.titleColor = Color.blue(), e.titleFont = Font.mediumSystemFont(16)
+        }
+        s.onClick && (n.onSelect = () => s.onClick(s, n)), "switch" === s.type && (n.onSelect = async () => {
+          this.settings[s.field] = "0" === this.settings[s.field] ? "1" : "0", await this.saveSettings(), await this.renderRow(e, t, i, !0)
+        })
+      }
+      e.addRow(n)
+    }
+    e.reload()
+  }
+
+  async drawButton(t = !0, i = new Size(104, 64)) {
+    const s = `button_${t}`;
+    let n = this.getCacheImage(s);
+    if (n) return n;
+    const {width: o, height: a} = i, r = Device.screenScale();
+    let l, c;
+    t ? (l = "#E8E8E8", c = a / 2) : (l = "#34C759", c = o - a / 2);
+    const h = e(o, a);
+    ((e, t, i, s, n, o, a) => {
+      const r = new Path, l = new Rect(t, i, s, n);
+      r.addRoundedRect(l, o, o), e.addPath(r), e.setFillColor(a), e.fillPath()
+    })(h, 0, 0, o, a, a / 2, new Color(l)), n = h.getImage();
+    const g = `\n    <img id="bgImage" src="data:image/png;base64,${Data.fromPNG(n).toBase64String()}" />\n    <canvas id="canvas" />`,
+      d = `\n    var drawRound = function(x, y, r, start, end, color, type) {\n      var unit = Math.PI / 180;\n      ctx.beginPath();\n      ctx.arc(x, y, r, start * unit, end * unit);\n      ctx[type + 'Style'] = color;\n      ctx.closePath();\n      // 添加阴影\n      ctx.shadowColor = 'rgba(152,152,152,0.8)';\n      ctx.shadowBlur = 10;\n      // 阴影偏移\n      //ctx.shadowOffsetX = 10;\n      //ctx.shadowOffsetY = 10;\n      // 绘制图形\n      ctx[type]();\n    }\n    var bgImage = document.getElementById("bgImage");\n    var canvas = document.createElement("canvas");\n    var width = bgImage.width/${r};\n    var height = bgImage.height/${r};\n    canvas.width = width;\n    canvas.height = height;\n    var ctx = canvas.getContext('2d');\n    ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);\n    ctx.globalCompositeOperation='source-atop';\n    drawRound(${c}, height/2, height/2-${.075 * a}, 0, 360, '#fff', 'fill');\n    output=canvas.toDataURL()`,
+      m = new WebView;
+    await m.loadHTML(g);
+    const u = await m.evaluateJavaScript(d), w = await new Request(u).loadImage();
+    return this.setCacheImage(s, w), w
+  }
+
+  async baseConfig() {
+    const e = [{
+      title: "重置组件", onClick: async () => {
+        -1 !== await this.generateAlert("操作提醒", "是否要重置当前组件吗？", ["确定"], "取消") && (Keychain.contains(this.settingKey) && Keychain.remove(this.settingKey), this.fileMGR.fileExists(this.libraryFolderFolderPath) && this.fileMGR.remove(this.libraryFolderFolderPath), await this.notify("重置组件成功", "请重新运行此桌面小组件！"))
+      }
+    }, {title: "重置组件", explain: "如账号数据有问题，可尝试此操作！"}, {
+      title: "还原参数", onClick: async () => {
+        if (-1 !== await this.generateAlert("操作提醒", "是否要还原当前组件参数吗？", ["确定"], "取消")) {
+          const e = this.getSettingsDefaultCoreKeys();
+          for (const t in e) this.settings[t] = e[t];
+          const t = this.getSettingsDefaultPluginKeys();
+          for (const e in t) this.settings[e] = t[e];
+          await this.saveSettings(!1), await this.notify("还原参数成功", "请重新运行此桌面小组件！")
+        }
+      }
+    }, {title: "还原参数", explain: "如需要恢复默认参数，可尝试此操作，本操作不会清除账号信息！", row: 2}], t = [{
+      title: "刷新时间",
+      value: this.settings.refreshAfterDate,
+      icon: {name: "arrow.clockwise", color: "#1890ff"},
+      onClick: async () => {
+        await this.inputBox("刷新时间", "刷新时间仅供参考，具体刷新时间由系统判断，单位：分钟", {refreshAfterDate: "刷新时间"})
+      }
+    }, {
+      title: "字体样式", icon: {name: "photo.fill", color: "#d48806"}, onClick: async () => {
+        const e = [{
+          title: "字体颜色", value: "白天 | 夜间", onClick: async () => {
+            await this.inputBox("字体颜色", "第一个输入框用于浅色模式即白天模式\n第一个输入框用于深色模式即夜晚模式", {
+              textColorInLight: "浅色模式",
+              textColorInDark: "深色模式"
+            })
+          }
+        }, {type: "switch", title: "字体阴影", field: "showTextShadow"}, {
+          title: "字体阴影",
+          value: "白天 | 夜间",
+          onClick: async () => {
+            await this.inputBox("字体阴影", "⒈白天   ⒉晚上\n请自行百度搜寻颜色(Hex 颜色)\n要取消文字阴影，请清空输入框", {
+              textShadowColorInLight: "浅色模式",
+              textShadowColorInDark: "深色模式"
+            })
+          }
+        }, {title: "字体阴影", explain: "选取合适的阴影颜色，可以让组件看起来更精致"}, {
+          title: "字体风格", onClick: async () => {
+            await this.inputBox("字体样式", "根据您的喜好设置字体风格", {fontFamilyInRegular: "常规体", fontFamilyInBold: "粗体"})
+          }
+        }, {title: "字体风格", explain: "请访问 http://iosfonts.com 选择您喜欢的字体风格"}], t = new UITable;
+        t.showSeparators = !0, await this.renderRow(t, e, "字体样式"), await t.present()
+      }
+    }, {
+      title: "背景设置", icon: {name: "photo.on.rectangle", color: "#fa8c16"}, onClick: async () => {
+        const e = [{
+            title: "颜色背景", value: "白天 | 夜间", onClick: async () => {
+              await this.inputBox("背景颜色", "单个颜色表示纯色背景，多个则是渐变背景", {
+                bgColorInLight: "浅色模式",
+                bgColorInDark: "深色模式",
+                bgColorGradient: "渐变角度"
+              })
+            }
+          }, {type: "switch", title: "图片背景", field: "showBackgroundImage"}, {
+            title: "图片背景",
+            explain: "关闭显示颜色背景，开启显示图片背景或透明背景。\n开启之前请先设置背景图片。",
+            row: 2
+          }, {
+            title: "自选图片",
+            dismissOnSelect: !0,
+            onClick: async () => await this.setBackgroundCustomImage()
+          }, {title: "透明背景", dismissOnSelect: !0, onClick: async () => await this.setBackgroundTransparentImage()}],
+          t = new UITable;
+        t.showSeparators = !0, await this.renderRow(t, e, "背景设置"), await t.present()
+      }
+    }, {
+      title: "错误日志", icon: {name: "note.text", color: "#7B68EE"}, onClick: async () => {
+        await this.getErrorLog()
+      }
+    }], i = new UITable;
+    i.showSeparators = !0, await this.renderRow(i, e, "还原设置"), await this.renderRow(i, t, "基础设置"), await i.present()
+  }
+
+  async inputBox(e, t, i, s = !0) {
+    const n = new Alert;
+    n.title = e, n.message = t ? "\n" + t : "", Object.keys(i).forEach((e => n.addTextField(i[e], this.settings[e]))), n.addAction("确定"), n.addCancelAction("取消");
+    if (-1 === await n.presentAlert()) return !1;
+    const o = {};
+    for (const e of Object.keys(i)) {
+      const t = Object.keys(i).indexOf(e);
+      o[e] = n.textFieldValue(t)
+    }
+    this.settings = {...this.settings, ...o}, await this.saveSettings(s)
+  }
+
+  async setBackgroundCustomImage() {
+    try {
+      const e = "您创建组件的是什么规格？", t = ["小组件", "中组件", "大组件"], i = ["Small", "Medium", "Large"],
+        n = await this.generateAlert("提示", e, t, "取消");
+      if (-1 === n) return;
+      const o = i[n], a = await Photos.fromLibrary(), r = "backgroundImage" + o, l = s(a);
+      this.setCacheImage(r, l), this.settings[r] = r, await this.saveSettings()
+    } catch (e) {
+    }
+  }
+
+  async setBackgroundTransparentImage() {
+    let e = "开始之前，请转到主屏幕并进入桌面编辑模式，滚动到最右边的空页面，然后截图！";
+    if (await this.generateAlert("提示", e, ["前去截图", "继续"])) try {
+      const t = await Photos.fromLibrary(), s = t.size.height;
+      let n = "";
+      if (2436 === s) {
+        e = "请选择您的 iPhone 型号";
+        const t = ["iPhone 12 mini", "iPhone 11 Pro, XS, or X"];
+        0 === await this.generateAlert("Joiner 提示", e, t) && (n = "_mini")
+      }
+      const o = i[s + n];
+      if (!o) return e = "您选择的照片好像不是正确的截图，或者您的机型暂时不支持。", await this.generateAlert("提示", e, ["知道了"]);
+      e = "您创建组件的是什么规格？";
+      const a = ["小组件", "中组件", "大组件"], r = ["Small", "Medium", "Large"][await this.generateAlert("提示", e, a)];
+      e = "在桌面上组件存在什么位置？", e += 1136 === s ? " （备注：当前设备只支持两行小组件，所以下边选项中的「中间」和「底部」的选项是一致的）" : "";
+      const l = {w: 0, h: 0, x: 0, y: 0};
+      let c, h, g;
+      switch (r) {
+        case"Small":
+          l.w = o.small.w, l.h = o.small.h, c = ["Top left", "Top right", "Middle left", "Middle right", "Bottom left", "Bottom right"], h = ["左上角", "右上角", "中间左", "中间右", "左下角", "右下角"], g = await this.generateAlert("提示", e, h);
+          const t = c[g].toLowerCase().split(" ");
+          l.y = o[t[0]], l.x = o[t[1]];
+          break;
+        case"Medium":
+          l.w = o.medium.w, l.h = o.medium.h, l.x = o.left, c = ["Top", "Middle", "Bottom"], h = ["顶部", "中部", "底部"], g = await this.generateAlert("提示", e, h);
+          const i = c[g].toLowerCase();
+          l.y = o[i];
+          break;
+        case"Large":
+          l.w = o.large.w, l.h = o.large.h, l.x = o.left, c = ["Top", "Bottom"], h = ["顶部", "底部"], g = await this.generateAlert("提示", e, h), l.y = g ? o.middle : o.top
+      }
+      const d = ((e, t) => {
+        const i = new DrawContext;
+        return i.size = new Size(t.width, t.height), i.drawImageAtPoint(e, new Point(-t.x, -t.y)), i.getImage()
+      })(t, new Rect(l.x, l.y, l.w, l.h)), m = "backgroundImage" + r;
+      this.setCacheImage(m, d), this.settings[m] = m, await this.saveSettings()
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  async customRunningTableUIInit(e) {
+    return console.log(e), {}
+  }
+
+  async customRunningTableUIInAfter(e) {
+    console.log(e)
+  }
+} {
+  constructor(e = "") {
+    super(e)
+  }
+
+  getSettingsDefaultPluginKeys() {
+    return {
+      myCarName: "",
+      myCarModelName: "",
+      myOne: "",
+      myCarPhoto: "",
+      showLogoTint: "0",
+      logoWidth: "",
+      logoHeight: "",
+      showTextDesc: "0",
+      showOil: "0",
+      showPlate: "0",
+      showLocation: "0",
+      showMediumLocation: "0",
+      showLargeLocation: "1",
+      locationMediumFormat: "",
+      locationLargeFormat: "",
+      showLargeLockColorStyle: "0",
+      showLargeStatusTime1: "1",
+      showLargeStatusTime2: "1",
+      showLargeTemperature: "1",
+      showKMUnit: "0",
+      dateLargeFormat: "",
+      showMediumStatusTime1: "1",
+      dateMediumFormat: "",
+      showMediumMyOne: "1",
+      showLargeMyOne: "1",
+      separatorLocationMyOneForMedium: "",
+      showIconSolid: "1",
+      showLargeMaintKM: "0",
+      largeMaintKM: "0",
+      showLargeMaintDate: "0",
+      largeMaintDate: "2024-06-25",
+      showLargeCheckDate: "0",
+      largeCheckDate: "2024-06-25",
+      showLargeInsuranceDate: "0",
+      largeInsuranceDate: "2024-06-25"
+    }
+  }
+
+  getSettingsPlugin() {
+    this.settings = this.getSettings();
+    const e = {
+      ...this.getSettingsDefaultPluginKeys(),
+      isLogin: !1,
+      username: "",
+      password: "",
+      clientID: "",
+      userAccessToken: "",
+      userIDToken: "",
+      refreshAuthToken: "",
+      carVIN: "",
+      authToken: "",
+      carPlateNo: "",
+      seriesName: "",
+      carModelName: "",
+      ApiBaseURI: "",
+      vehicleData: "",
+      vehiclesAddress: {},
+      aMapKey: "",
+      widgetData: {},
+      scriptName: {},
+      debugOutputLog: ""
+    };
+    for (const t in e) this.settings[t] = this.settings[t] || e[t];
+    this.saveSettings(!1).then()
+  }
+
+  successColor = (e = 1) => new Color("#67C23A", e);
+  warningColor = (e = 1) => new Color("#E6A23C", e);
+  dangerColor = (e = 1) => new Color("#F56C6C", e);
+
+  async componentsConfig() {
+    const e = [{
+      title: "刷新组件数据", onClick: async () => {
+        this.settings.debugOutputLog = "", await this.saveSettings(!1), await this.getData(!0);
+        const e = this.settings.debugOutputLog;
+        Pasteboard.copy(e.toString()), await this.notify("复制提示", "返回结果已经复制到剪切板上")
+      }
+    }, {title: "刷新组件数据", explain: "如桌面组件数据显示不正确，可以执行本操作。如开发者需要将剪切板内容分享调试。", row: 2}, {
+      title: "用户信息数据",
+      onClick: async () => {
+        this.settings.debugOutputLog = "", await this.saveSettings(!1), await this.handleLoginRequest(!0);
+        const e = this.settings.debugOutputLog;
+        Pasteboard.copy(e.toString()), await this.notify("复制提示", "返回结果已经复制到剪切板上")
+      }
+    }, {title: "用户数据", explain: "用于刷新用户基本信息，例如车牌号等信息。如开发者需要将剪切板内容分享调试。", row: 2}], t = [{
+      title: "自定义车辆名称", icon: {name: "pencil", color: "#663300"}, onClick: async () => {
+        await this.inputBox("自定义车辆名称", `如果您不喜欢系统返回的名称可以自己定义名称，不填则显示：\n"${this.settings.seriesName}"`, {myCarName: "请输入自定义名称"})
+      }
+    }, {
+      title: "自定义车辆功率", icon: {name: "pencil.tip", color: "#990000"}, onClick: async () => {
+        await this.inputBox("自定义车辆功率", `根据车辆实际情况可自定义功率类型，不填则显示：\n"${this.settings.carModelName}"`, {myCarModelName: "请输入自定义功率信息"})
+      }
+    }, {
+      title: "自定义一言语句", icon: {name: "scribble", color: "#003333"}, onClick: async () => {
+        await this.inputBox("自定义一言语句", `请输入一言，将会在桌面展示语句，不填则显示：\n"${this.defaultMyOne}"`, {myOne: "请输入自定义一言语句"})
+      }
+    }, {
+      title: "自定义车辆照片",
+      icon: {name: "car", color: "#0033CC"},
+      onClick: async () => await this.setMyCarPhoto()
+    }, {
+      title: "Logo 个性化配置", icon: {name: "scissors", color: "#660033"}, onClick: async () => {
+        const e = [{title: "自定义 Logo 图片", onClick: async () => await this.setMyCarLogo()}, {
+          title: "Logo 大小",
+          onClick: async () => {
+            await this.inputBox("设置 Logo 高宽大小", `不填为默认，默认图片宽度为 ${this.defaultLogoWidth} 高度为 ${this.defaultLogoHeight}`, {
+              logoWidth: "请输入 Logo 宽度",
+              logoHeight: "请输入 Logo 高度"
+            })
+          }
+        }, {title: "Logo 颜色填充", type: "switch", field: "showLogoTint"}, {
+          title: "Logo 颜色填充",
+          explain: "开启选项：保持图片颜色。\n关闭选项：和字体颜色保持一致。\n",
+          row: 3
+        }], t = new UITable;
+        t.showSeparators = !0, await this.renderRow(t, e, "Logo 个性化配置"), await t.present()
+      }
+    }, {
+      title: "数据展示偏好", icon: {name: "wand.and.stars", color: "#6633CC"}, onClick: async () => {
+        const e = new UITable;
+        e.showSeparators = !0, await this.renderRow(e, [{
+          title: '"公里"单位英文缩写',
+          type: "switch",
+          field: "showKMUnit"
+        }, {title: '"公里"单位英文缩写', explain: '开启此选项把"公里"单位替换成英文缩写单位"km"', row: 2}, {
+          title: "文字描述",
+          type: "switch",
+          field: "showTextDesc"
+        }, {title: "文字描述", explain: "用于中、大组件展示信息类型。\n如果觉得纯图标展示信息过于简单，开启该选项转化文字描述。", row: 2}, {
+          title: "实心图标",
+          type: "switch",
+          field: "showIconSolid"
+        }, {title: "实心图标", explain: "开启显示实心图标，关闭则显示空心图标。", row: 2}, {
+          title: "机油显示",
+          type: "switch",
+          field: "showOil"
+        }, {
+          title: "机油显示",
+          explain: '用于大组件展示机油信息。\n如果开启无效则车辆不支持机油显示。\n机油信息在某些情况下可能展示不正确。\n例如在无信号情况下，如出现 "N/A" 值则获取数据不明确。',
+          row: 4
+        }, {title: "车牌显示", type: "switch", field: "showPlate"}, {
+          title: "车牌显示",
+          explain: '用于大组件展示车牌信息。\n如出现横线请到车企 App 完善信息，然后刷新"用户信息数据"即可。\n一汽大众和上汽奥迪需要到菜单到"特有设置"中填写车牌号',
+          row: 4
+        }], "数据展示偏好"), await e.present()
+      }
+    }, {
+      title: "车辆位置设置", icon: {name: "location", color: "#003399"}, onClick: async () => {
+        const e = [{title: "位置显示", type: "switch", field: "showLocation"}, {
+          title: "位置显示",
+          explain: "用于中、大组件展示车辆位置信息。\n部分车辆不支持，例如一汽奥迪中的 21 年后的时尚 A4L 系列不支持。\n另外需要额外申请高德地图 Key 密钥。",
+          row: 4
+        }, {
+          title: "高德地图密钥", onClick: async () => {
+            await this.inputBox("高德地图密钥", "请输入组件所需要的高德地图密钥，用于车辆逆地理编码以及地图资源", {aMapKey: "请输入高德地图密钥"})
+          }
+        }, {
+          title: "高德地图申请教程", value: "点击查看", onClick: async () => {
+            await Safari.open("https://docs.qq.com/doc/DQWJjS2hSbE9QSGJo")
+          }
+        }], t = new UITable;
+        t.showSeparators = !0, await this.renderRow(t, e, "车辆位置设置"), await t.present()
+      }
+    }, {
+      title: "Medium 中号组件配置",
+      icon: {name: "square.3.stack.3d.middle.filled", color: "#000066"},
+      onClick: async () => {
+        const e = [{title: "位置显示", type: "switch", field: "showMediumLocation"}, {
+          title: "位置信息格式",
+          onClick: async () => {
+            await this.inputBox("位置信息格式", '请输入组件所需要的位置信息格式，位置关键词如下\n国、省、市、区、乡镇、街道、社区、建筑、区域\n例如可以输入"国|区|街道"即可，请注意"|"是英文的分隔符，不是中文的分隔符。\n如不填写则默认显示标准位置信息', {locationMediumFormat: "请输入位置信息格式"})
+          }
+        }, {
+          title: "位置信息格式",
+          explain: "用于中组件展示车辆位置优化信息。\n如果觉得默认车辆位置信息太啰嗦或者不够简洁，可以通过本设置进行进一步优化信息展示。\n",
+          row: 4
+        }, {
+          title: "时间信息格式", onClick: async () => {
+            await this.inputBox("时间信息格式", "请输入组件所需要的时间信息格式：例如你可以填写「yyyy年MM月dd HH:mm:ss」或「HH时mm分ss秒」\n如不填写则默认「流逝」时间格式。", {dateMediumFormat: "请输入位置信息格式"})
+          }
+        }, {
+          title: "时间信息格式文档", value: "点击查看", onClick: async () => {
+            await Safari.open("https://docs.scriptable.app/dateformatter/#dateformat")
+          }
+        }, {title: '显示"云端刷新"数据', type: "switch", field: "showMediumStatusTime1"}, {
+          title: '显示"云端刷新"数据',
+          explain: "利用本数据用来判断车辆停车熄火的时间点(提前没有在 App 强制刷新)，如果觉得多余可以关闭隐藏该数据。\n如果隐藏「云端刷新」数据能源信息将会独占一行！",
+          row: 3
+        }, {title: '显示"一言"', type: "switch", field: "showMediumMyOne"}, {
+          title: "地址和一言的分隔符", onClick: async () => {
+            await this.inputBox("地址和一言的分隔符", "用于分隔地址和一言的符号，可以百度搜索「圆点符号」、「分隔符」复制进来，不填为空", {separatorLocationMyOneForMedium: "地址和一言的分隔符"})
+          }
+        }], t = new UITable;
+        t.showSeparators = !0, await this.renderRow(t, e, "Medium 中号组件配置"), await t.present()
+      }
+    }, {
+      title: "Large 大号组件配置", icon: {name: "square.3.stack.3d.bottom.filled", color: "#336699"}, onClick: async () => {
+        const e = [{title: "位置显示", type: "switch", field: "showLargeLocation"}, {
+          title: "位置信息格式",
+          onClick: async () => {
+            await this.inputBox("位置信息格式", '请输入组件所需要的位置信息格式，位置关键词如下\n国、省、市、区、乡镇、街道、社区、建筑、区域\n例如可以输入"国|区|街道"即可，请注意"|"是英文的分隔符，不是中文的分隔符。\n如不填写则默认显示标准位置信息', {locationLargeFormat: "请输入位置信息格式"})
+          }
+        }, {
+          title: "位置信息格式",
+          explain: "用于中组件展示车辆位置优化信息。\n如果觉得默认车辆位置信息太啰嗦或者不够简洁，可以通过本设置进行进一步优化信息展示。\n",
+          row: 4
+        }, {title: "锁车绿色风格", type: "switch", field: "showLargeLockColorStyle"}, {
+          title: "锁车绿色风格",
+          explain: "用于设置锁车提示风格，开启将会更显眼反馈当前车辆状态。",
+          row: 2
+        }, {
+          title: "时间信息格式", onClick: async () => {
+            await this.inputBox("时间信息格式", "请输入组件所需要的时间信息格式：\n例如你可以填写「yyyy年MM月dd HH:mm:ss」或「HH时mm分ss秒」\n如不填写则默认「流逝」时间格式。", {dateLargeFormat: "请输入位置信息格式"})
+          }
+        }, {
+          title: "时间信息格式文档", value: "点击查看", onClick: async () => {
+            await Safari.open("https://docs.scriptable.app/dateformatter/#dateformat")
+          }
+        }, {title: '显示"云端刷新"数据', type: "switch", field: "showLargeStatusTime1"}, {
+          title: '显示"云端刷新"数据',
+          explain: "利用本数据用来判断车辆停车熄火的时间点(提前没有在 App 强制刷新)，如果觉得多余可以关闭隐藏该数据。",
+          row: 3
+        }, {title: '显示"本地刷新"数据', type: "switch", field: "showLargeStatusTime2"}, {
+          title: '显示"本地刷新"数据',
+          explain: "本数据是小组件自身刷新的时间，如果觉得多余可以关闭隐藏该数据。",
+          row: 3
+        }, {title: '显示"环境温度"数据', type: "switch", field: "showLargeTemperature"}, {
+          title: '显示"环境温度"数据',
+          explain: "本数据是来自车辆仪表盘的温度数据，如果觉得多余可以关闭隐藏该数据。",
+          row: 3
+        }, {title: '显示"保养里程"数据', type: "switch", field: "showLargeMaintKM"}, {
+          title: "下一次保养里程", onClick: async () => {
+            await this.inputBox("下一次保养里程", "请输入下一次保养的里程数，单位「公里」", {largeMaintKM: "请输入下一次保养里程"})
+          }
+        }, {title: '显示"保养日期"数据', type: "switch", field: "showLargeMaintDate"}, {
+          title: "下一次保养日期",
+          onClick: async () => {
+            await this.inputBox("下一次保养日期", "请输入下一次保养的日期，如果你下一次保养日期是「2024年06月25日」需要填入「2024-06-25」即可。如果单月或者单日用0补位，请用英文分割线「-」。", {largeMaintDate: "下一次保养日期"})
+          }
+        }, {title: '关于"保养里程"和"保养日期"说明', explain: "保养里程和保养日期功能重复，建议二选一在组件显示即可。", row: 2}, {
+          title: '显示"年检日期"数据',
+          type: "switch",
+          field: "showLargeCheckDate"
+        }, {
+          title: "下一次年检日期", onClick: async () => {
+            await this.inputBox("下一次年检日期", "请输入下一次车辆年检的日期，如果你下一次年检日期是「2024年06月25日」需要填入「2024-06-25」即可。如果单月或者单日用0补位，请用英文分割线「-」。", {largeCheckDate: "下一次年检日期"})
+          }
+        }, {title: '显示"保险日期"数据', type: "switch", field: "showLargeInsuranceDate"}, {
+          title: "下一次保险日期",
+          onClick: async () => {
+            await this.inputBox("下一次保险日期", "请输入下一次车辆保险的日期，如果你下一次保险日期是「2024年06月25日」需要填入「2024-06-25」即可。如果单月或者单日用0补位，请用英文分割线「-」。", {largeInsuranceDate: "下一次保险日期"})
+          }
+        }, {title: "⚠️⚠️⚠️注意说明", explain: "上面信息不要全部开启，小组件会错位，建议开启你喜欢的数据即可。", row: 3}, {
+          title: '显示"一言"',
+          type: "switch",
+          field: "showLargeMyOne"
+        }], t = new UITable;
+        t.showSeparators = !0, await this.renderRow(t, e, "Large 大号组件配置"), await t.present()
+      }
+    }], i = new UITable;
+    i.showSeparators = !0, await this.renderRow(i, e, "数据刷新"), await this.renderRow(i, t, "组件设置"), await i.present()
+  }
+
+  async setMyCarPhoto() {
+    const e = await this.generateAlert("车辆图片", "请在相册选择您最喜欢的车辆图片以便展示到小组件上，最好是全透明背景 PNG 图。", ["选择图片", "恢复原样"], "取消");
+    if (0 === e) try {
+      const e = await Photos.fromLibrary(), t = `myCarPhotoImage_${this.settingKey}`, i = s(e);
+      this.setCacheImage(t, i), this.settings.myCarPhoto = t, await this.saveSettings()
+    } catch (e) {
+    }
+    1 === e && (this.settings.myCarPhoto = "", await this.saveSettings())
+  }
+
+  async setMyCarLogo() {
+    const e = await this.generateAlert("LOGO 图片", "请在相册选择 LOGO 图片以便展示到小组件上，最好是全透明背景 PNG 图。", ["选择图片", "恢复原样"], "取消");
+    if (0 === e) try {
+      const e = await Photos.fromLibrary(), t = `myCarLogoImage_${this.settingKey}`, i = s(e);
+      this.setCacheImage(t, i), this.settings.myCarLogo = t, await this.saveSettings()
+    } catch (e) {
+    }
+    1 === e && (this.settings.myCarLogo = "", await this.saveSettings())
+  }
+
+  async render() {
+    const e = await this.getData();
+    if (console.log("组件信息："), console.log(e), e.error) return await this.renderError(e);
+    if (this.settings.isLogin) {
+      return {
+        small: F.bind(this),
+        medium: D.bind(this),
+        large: R.bind(this),
+        accessoryRectangular: z.bind(this),
+        accessoryCircular: O.bind(this)
+      }[this.widgetFamily](e)
+    }
+    return await this.renderEmpty()
+  }
+
+  async renderEmpty() {
+    const e = new ListWidget, t = new LinearGradient;
+    t.colors = [Color.dynamic(new Color("#0F2027"), new Color("#0F2027")), Color.dynamic(new Color("#203A43"), new Color("#203A43")), Color.dynamic(new Color("#2C5364"), new Color("#2C5364"))], t.locations = [0, 1], e.backgroundGradient = t;
+    const i = e.addText("欢迎使用 Joiner V3 系列汽车组件"),
+      s = {small: Font.boldSystemFont(14), medium: Font.boldSystemFont(18), large: Font.boldSystemFont(18)};
+    return i.font = s[this.widgetFamily], i.centerAlignText(), i.textColor = Color.white(), e
+  }
+
+  async renderError(e) {
+    const t = new ListWidget, i = new LinearGradient;
+    i.colors = [Color.dynamic(new Color("#3C3B3F"), new Color("#3C3B3F")), Color.dynamic(new Color("#605C3C"), new Color("#605C3C"))], i.locations = [0, 1], t.backgroundGradient = i;
+    const s = e.error || "未知错误", n = e.messages || "请到错误日志查阅错误日志", o = t.addText(s);
+    t.addSpacer(10);
+    const a = t.addText(n),
+      r = {small: Font.boldSystemFont(14), medium: Font.boldSystemFont(18), large: Font.boldSystemFont(18)},
+      l = {small: Font.blackSystemFont(12), medium: Font.blackSystemFont(16), large: Font.blackSystemFont(16)};
+    return o.font = r[this.widgetFamily], a.font = l[this.widgetFamily], o.centerAlignText(), o.textColor = Color.red(), a.centerAlignText(), a.textColor = Color.red(), t
+  }
+
+  async getData(e = !1) {
+    return console.log(e), {}
+  }
+
+  async handleLoginRequest(e = !1) {
+    console.log(e)
+  }
+} {
+  constructor(e) {
+    super(e), this.version = "3.2.4"
+  }
+
+  async getDeviceId(e = !1) {
+    const t = {
+      url: "https://mbboauth-1d.prd.cn.vwg-connect.cn/mbbcoauth/mobile/register/v1",
+      method: "POST",
+      headers: {
+        "User-Agent": this.requestHeader()["User-Agent"],
+        "X-App-Version": "113",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        appId: this.appId,
+        client_brand: this.brand,
+        appName: this.appName,
+        client_name: "Maton",
+        appVersion: this.appVersion,
+        platform: "iOS"
+      })
+    };
+    try {
+      const i = await this.http(t);
+      e && (console.log("设备编码接口返回数据："), console.log(i)), i.client_id ? (this.settings.clientID = i.client_id, await this.saveSettings(!1), console.log(`获取设备编码成功: "${i.client_id}", 准备进行账户登录`), await this.handleLoginRequest(e)) : (console.error("获取设备编码失败，请稍后再重试！"), await this.notify("系统通知", "获取设备编码失败，请稍后再重试！"))
+    } catch (e) {
+      console.error(e);
+      const i = {url: t.url, error: e.toString()};
+      await this.writeError(i)
+    }
+  }
+
+  async getTokenRequest(e, t = !1) {
+    console.log(e), console.log(t)
+  }
+
+  async getApiBaseURI(e = !1) {
+    const t = {
+      url: `https://mal-1a.prd.cn.vwg-connect.cn/api/cs/vds/v1/vehicles/${this.settings.carVIN}/homeRegion`,
+      method: "GET",
+      headers: {...this.requestHeader(), Authorization: "Bearer " + this.settings.authToken}
+    };
+    try {
+      const i = await this.http(t);
+      if (e && (console.log("基础访问域接口返回数据："), console.log(i)), i.error) console.error("getApiBaseURI 接口异常" + i.error.errorCode + " - " + i.error.description); else {
+        const {baseUri: e} = i.homeRegion;
+        this.settings.ApiBaseURI = e.content, this.settings.isLogin = !0, await this.saveSettings(!1), console.log(`根据车架号查询基础访问域成功：${e.content}`)
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  async getVehiclesStatus(e = !1) {
+    const t = {
+      url: `https://audioneapp.faw-vw.com/prod/tm/remote-control-service/public/api/v1/green/remote-charging/get-charging-status?vin=${this.settings.carVIN}`,
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + this.settings.authToken,
+        "X-App-Name": this.appName,
+        "X-App-Version": "113",
+        "Accept-Language": "de-DE", ...this.requestHeader()
+      }
+    };
+    try {
+      const i = await this.http(t);
+      return this.settings.vehicleData = this.handleVehiclesData(i.data), await this.saveSettings(!1), this.settings.vehicleData
+      // if (e && (console.log("当前车辆状态接口返回数据："), console.log(i), this.settings.debugOutputLog += "当前车辆状态接口返回数据：\n" + JSON.stringify(i) + "\n", await this.saveSettings(!1)), i.error) {
+      //   const s = await this.handleMBBCVehiclesApiError(i, this.getVehiclesStatus, e),
+      //     n = {url: t.url, error: JSON.stringify(s)};
+      //   return await this.writeError(n), this.settings.vehicleData
+      // }
+      // {
+      //   console.log("test---->：")
+      //   const e = i.data;
+      //   return this.settings.vehicleData = this.handleVehiclesData(e), await this.saveSettings(!1), this.settings.vehicleData
+      // }
+    } catch (e) {
+      console.error(e);
+      const i = {url: t.url, error: e.toString()};
+      return await this.writeError(i), this.settings.vehicleData
+    }
+  }
+
+  async getVehiclesPosition(e = !1) {
+    const t = {
+      url: `${this.settings.ApiBaseURI}/bs/cf/v1/vehicles/${this.settings.carVIN}/position`,
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + this.settings.authToken,
+        "X-App-Name": this.appName,
+        "X-App-Version": "113",
+        "Accept-Language": "de-DE", ...this.requestHeader()
+      }
+    };
+    try {
+      const i = await this.http(t);
+      if (e && (console.log("车辆经纬度接口返回数据："), console.log(i), this.settings.debugOutputLog += "车辆经纬度接口返回数据：\n" + JSON.stringify(i) + "\n", await this.saveSettings(!1)), i.error) {
+        const s = await this.handleMBBCVehiclesApiError(i, this.getVehiclesPosition, e),
+          n = {url: t.url, error: JSON.stringify(s)};
+        return await this.writeError(n), {longitude: 0, latitude: 0}
+      }
+      {
+        let t = 0, s = 0;
+        return i.storedPositionResponse ? (t = i.storedPositionResponse.position.carCoordinate.longitude, s = i.storedPositionResponse.position.carCoordinate.latitude) : i.findCarResponse && (t = i.findCarResponse.Position.carCoordinate.longitude, s = i.findCarResponse.Position.carCoordinate.latitude), t /= 1e6, s /= 1e6, await this.saveSettings(!1), console.log("获取车辆经纬度信息"), e && (console.log("当前车辆经纬度："), console.log("经度：" + t), console.log("纬度：" + s)), {
+          longitude: t,
+          latitude: s
+        }
+      }
+    } catch (e) {
+      console.error(e);
+      const i = {url: t.url, error: e.toString()};
+      return await this.writeError(i), {longitude: 0, latitude: 0}
+    }
+  }
+
+  async handleHonkAndFlash(e, t) {
+    const i = {
+      url: `${this.settings.ApiBaseURI}/bs/rhf/v1/vehicles/${this.settings.carVIN}/honkAndFlash`,
+      method: "POST",
+      headers: {Authorization: "Bearer " + this.settings.authToken, Accept: "application/json"},
+      body: JSON.stringify({
+        honkAndFlashRequest: {
+          userPosition: {
+            longitude: this.settings.longitude,
+            latitude: this.settings.latitude
+          }, serviceOperationCode: e, serviceDuration: t
+        }
+      })
+    };
+    try {
+      const e = await this.http(i);
+      if (e.error) {
+        const t = await this.handleMBBCVehiclesApiError(e, this.handleHonkAndFlash, !1),
+          s = {url: i.url, error: JSON.stringify(t)};
+        return await this.writeError(s), s
+      }
+      return e
+    } catch (e) {
+      return {error: "操作失败", messages: e.toString()}
+    }
+  }
+
+  async handleMBBCVehiclesApiError(e, t, i) {
+    let s, n;
+    switch (e.error.errorCode) {
+      case"gw.error.authentication":
+        console.error(`身份验证失效：${e.error.errorCode} - ${e.error.description}`), await this.getTokenRequest("authAccessToken", i), t(i);
+        break;
+      case"mbbc.rolesandrights.unauthorized":
+        s = "未经授权", n = "请检查您的车辆是否已经开启车联网服务，请到车企应用应用查看";
+        break;
+      case"mbbc.rolesandrights.unauthorizedUserDisabled":
+        s = "未授权用户被禁用", n = "HMI 未激活，请到车企应用应用查看";
+        break;
+      case"mbbc.rolesandrights.unauthorizedNoLicense":
+        s = "未经授权无许可证", n = "没有激活车联网，请到车企应用应用查看";
+        break;
+      case"mbbc.rolesandrights.unknownVehicle":
+        s = "未知车辆", n = "请在车企应用里绑定车辆";
+        break;
+      case"CF.technical.9031":
+        console.error("获取数据超时，稍后再重试");
+        break;
+      case"mbbc.rolesandrights.servicelocallydisabled":
+        console.error("请检查车辆位置是否开启"), await this.notify("获取失败", "请检查车辆位置是否开启");
+        break;
+      case"mbbc.rolesandrights.unknownService":
+        s = "未知服务", n = "服务器可能存在问题，请稍后再重试";
+        break;
+      case"gw.error.validation":
+        s = "验证失败", n = e.error.description;
+        break;
+      default:
+        s = "未知错误", n = "请联系开发者"
+    }
+    const o = {url: s + " " + e.error.errorCode, error: n + " " + e.error.description};
+    return await this.writeError(o), {error: s, messages: n}
+  }
+
+  async getCarAddressInfo(e, t = !1) {
+    const i = e?.longitude || 0, s = e?.latitude || 0;
+    if (0 === i || 0 === s) return this.settings.vehiclesAddress = {
+      defaultAddress: "暂无位置信息",
+      customMediumAddress: "暂无位置信息",
+      customLargeAddress: "暂无位置信息"
+    }, await this.saveSettings(!1), this.settings.vehiclesAddress;
+    const n = this.settings.aMapKey?.trim(), o = {
+      url: `https://restapi.amap.com/v3/geocode/regeo?key=${n}&location=${i},${s}&radius=1000&extensions=all&batch=false&roadlevel=0`,
+      method: "GET"
+    };
+    try {
+      const e = await this.http(o);
+      if ("1" === e.status) {
+        const i = e.regeocode.addressComponent, s = e.regeocode.aois, n = e => {
+          switch (e) {
+            case"国":
+              e = "country";
+              break;
+            case"省":
+              e = "province";
+              break;
+            case"市":
+              e = "city";
+              break;
+            case"区":
+              e = "district";
+              break;
+            case"乡镇":
+              e = "township";
+              break;
+            case"社区":
+              e = "neighborhood";
+              break;
+            case"街道":
+              e = "streetNumber";
+              break;
+            case"建筑":
+              e = "building";
+              break;
+            case"区域":
+              e = "aois"
+          }
+          return e
+        };
+        let o = "", a = "";
+        this.settings.locationMediumFormat?.split("|")?.map((e => n(e))).forEach((e => {
+          o += "neighborhood" === e || "building" === e ? i[e].name || "" : "streetNumber" === e ? i[e].street || "" : "aois" === e ? s[0]?.name || "" : i[e] || ""
+        })), this.settings.locationLargeFormat?.split("|")?.map((e => n(e))).forEach((e => {
+          a += "neighborhood" === e || "building" === e ? i[e].name || "" : "streetNumber" === e ? i[e].street || "" : "aois" === e ? s[0]?.name || "" : i[e] || ""
+        }));
+        const r = e.regeocode.formatted_address || "暂无位置信息";
+        return this.settings.vehiclesAddress = {
+          defaultAddress: r,
+          customMediumAddress: o,
+          customLargeAddress: a
+        }, await this.saveSettings(!1), console.log("获取车辆地理位置信息成功"), t && (console.log("当前车辆地理位置："), console.log("中组件自定义地址：" + o), console.log("大组件自定义地址：" + a), console.log("默认地址：" + r), console.log("车辆地理位置返回数据："), console.log(e), this.settings.debugOutputLog += "当前车辆地理位置：\n", this.settings.debugOutputLog += "中组件自定义地址：\n" + o + "\n", this.settings.debugOutputLog += "大组件自定义地址：\n" + a + "\n", this.settings.debugOutputLog += "详细地址：\n" + r + "\n", this.settings.debugOutputLog += "车辆地理位置返回数据：\n" + JSON.stringify(e) + "\n", await this.saveSettings(!1)), this.settings.vehiclesAddress
+      }
+      return console.error("获取车辆位置失败，请检查高德地图 key 是否填写正常"), await this.notify("逆编码地理位置失败", "请检查高德地图 key 是否填写正常"), this.settings.vehiclesAddress = {
+        defaultAddress: "暂无位置信息",
+        customMediumAddress: "暂无位置信息",
+        customLargeAddress: "暂无位置信息"
+      }, await this.saveSettings(!1), this.settings.vehiclesAddress
+    } catch (e) {
+      return await this.notify("请求失败", "提示：" + e), console.error(e), this.settings.vehiclesAddress = {
+        defaultAddress: "暂无位置信息",
+        customMediumAddress: "暂无位置信息",
+        customLargeAddress: "暂无位置信息"
+      }, await this.saveSettings(!1), this.settings.vehiclesAddress
+    }
+  }
+
+  async getData(e = !1) {
+    const t = "1" === this.settings.showLocation && "" !== this.settings.aMapKey,
+      i = "1" === this.settings.showPlate || !1, s = "1" === this.settings.showOil || !1,
+      n = await this.getVehiclesStatus(e);
+    let o = {longitude: 0, latitude: 0};
+    const a = {
+      carPlateNo: this.settings.carPlateNo,
+      seriesName: this.settings.myCarName || this.settings.seriesName,
+      carModelName: this.settings.myCarModelName || this.settings.carModelName,
+      carVIN: this.settings.carVIN,
+      myOne: this.settings.myOne || this.defaultMyOne,
+      oilSupport: !!s && n.oilSupport,
+      oilLevel: n.oilLevel,
+      parkingLights: n.parkingLights,
+      outdoorTemperature: n.outdoorTemperature,
+      parkingBrakeActive: n.parkingBrakeActive,
+      fuelRange: n.fuelRange,
+      fuelLevel: n.fuelLevel,
+      socLevel: n.socLevel,
+      mileage: n.mileage,
+      updateNowDate: (new Date).valueOf(),
+      updateTimeStamp: n.updateTimeStamp || (new Date).valueOf(),
+      isLocked: n.isLocked || !1,
+      doorStatus: n.doorStatus || [],
+      windowStatus: n.windowStatus || [],
+      showLargeMaintKM: "1" === this.settings.showLargeMaintKM || !1,
+      largeMaintKM: parseInt(this.settings.largeMaintKM, 10) - parseInt(n.mileage, 10) || 0,
+      showLargeMaintDate: "1" === this.settings.showLargeMaintDate || !1,
+      largeMaintDate: v(new Date(this.settings.largeMaintDate).valueOf()),
+      showLargeCheckDate: "1" === this.settings.showLargeCheckDate || !1,
+      largeCheckDate: v(new Date(this.settings.largeCheckDate).valueOf()),
+      showLargeInsuranceDate: "1" === this.settings.showLargeInsuranceDate || !1,
+      largeInsuranceDate: v(new Date(this.settings.largeInsuranceDate).valueOf()),
+      showPlate: i,
+      showLocation: t, ...t ? o : {}, ...t ? await this.getCarAddressInfo(o, e) : {}
+    };
+    // if (t && (o = await this.getVehiclesPosition(e)), n.error) return n;
+    // if (o.error) return o;
+    // const a = {
+    //   carPlateNo: this.settings.carPlateNo,
+    //   seriesName: this.settings.myCarName || this.settings.seriesName,
+    //   carModelName: this.settings.myCarModelName || this.settings.carModelName,
+    //   carVIN: this.settings.carVIN,
+    //   myOne: this.settings.myOne || this.defaultMyOne,
+    //   oilSupport: !!s && n.oilSupport,
+    //   oilLevel: n.oilLevel,
+    //   parkingLights: n.parkingLights,
+    //   outdoorTemperature: n.outdoorTemperature,
+    //   parkingBrakeActive: n.parkingBrakeActive,
+    //   fuelRange: n.fuelRange,
+    //   fuelLevel: n.fuelLevel,
+    //   socLevel: n.socLevel,
+    //   mileage: n.mileage,
+    //   updateNowDate: (new Date).valueOf(),
+    //   updateTimeStamp: n.updateTimeStamp || (new Date).valueOf(),
+    //   isLocked: n.isLocked || !1,
+    //   doorStatus: n.doorStatus || [],
+    //   windowStatus: n.windowStatus || [],
+    //   showLargeMaintKM: "1" === this.settings.showLargeMaintKM || !1,
+    //   largeMaintKM: parseInt(this.settings.largeMaintKM, 10) - parseInt(n.mileage, 10) || 0,
+    //   showLargeMaintDate: "1" === this.settings.showLargeMaintDate || !1,
+    //   largeMaintDate: v(new Date(this.settings.largeMaintDate).valueOf()),
+    //   showLargeCheckDate: "1" === this.settings.showLargeCheckDate || !1,
+    //   largeCheckDate: v(new Date(this.settings.largeCheckDate).valueOf()),
+    //   showLargeInsuranceDate: "1" === this.settings.showLargeInsuranceDate || !1,
+    //   largeInsuranceDate: v(new Date(this.settings.largeInsuranceDate).valueOf()),
+    //   showPlate: i,
+    //   showLocation: t, ...t ? o : {}, ...t ? await this.getCarAddressInfo(o, e) : {}
+    // };
+    return this.settings.widgetData = a, this.settings.scriptName = Script.name(), await this.saveSettings(!1), e && (console.log("获取组件所需数据："), console.log(a), this.settings.debugOutputLog += "获取组件所需数据：\n" + JSON.stringify(a) + "\n", await this.saveSettings(!1)), a
+  }
+
+  async checkUpdate(e = !0) {
+    const t = this.initResponse ? this.initResponse : await this.http({
+      url: "https://joiner.i95.me/v3/joiner.json",
+      method: "GET"
+    });
+    if (this.settings.defaultCarImageUrl = t[this.field].car || "https://img.alicdn.com/imgextra/i1/2038135983/O1CN01dwjxmv1u4GRMLLu8C_!!2038135983.png", this.settings.defaultLogoImageUrl = t[this.field].logo || "https://img.alicdn.com/imgextra/i1/2038135983/O1CN01dwjxmv1u4GRMLLu8C_!!2038135983.png", await this.saveSettings(!1), t.version === this.version) return e && this.notify("无需更新", "远程版本一致，暂无更新");
+    const i = new UITable;
+    i.showSeparators = !1;
+    const s = new UITableRow;
+    s.height = 68, s.backgroundColor = Color.dynamic(new Color("#F2F1F6"), new Color("#000000"));
+    const n = s.addText("更新提示", `是否需要升级到${t.version}版本`);
+    n.titleFont = Font.mediumSystemFont(17), n.titleColor = this.warningColor(), n.centerAligned(), i.addRow(s), t.changelog.forEach((e => {
+      const t = new UITableRow;
+      t.height = 54;
+      t.addText(e).titleFont = Font.mediumSystemFont(14), i.addRow(t)
+    }));
+    const o = new UITableRow;
+    o.height = 54;
+    const a = o.addText("⚠️⚠️⚠️ 更新成功请关闭菜单窗口，重新运行脚本，否则无法使用最新小组件。");
+    a.titleFont = Font.mediumSystemFont(14), a.titleColor = this.dangerColor(), i.addRow(o);
+    const r = new UITableRow;
+    r.height = 54;
+    const l = r.addButton(" ");
+    l.titleFont = Font.mediumSystemFont(14), l.titleColor = Color.gray(), l.widthWeight = 1, l.centerAligned();
+    const c = r.addButton("点击此处更新小组件");
+    c.dismissOnTap = !0, c.titleFont = Font.mediumSystemFont(16), c.titleColor = this.successColor(), c.widthWeight = 1, c.centerAligned(), c.onTap = async () => {
+      const e = Script.name() + ".js",
+        i = FileManager[module.filename.includes("Documents/iCloud~") ? "iCloud" : "local"]();
+      await this.notify("正在更新中...");
+      const s = await this.http({url: t[this.field].download, type: "load"});
+      i.write(i.joinPath(i.documentsDirectory(), e), s), await this.notify("Joiner 桌面组件更新完毕!", "⚠️注意：请关闭当前菜单栏重新打开菜单再运行脚本！")
+    }, i.addRow(r), await i.present()
+  }
+
+  async QAPreview(e) {
+    const t = new UITable;
+    t.showSeparators = !0;
+    const i = new UITableRow;
+    i.backgroundColor = Color.dynamic(new Color("#F2F1F6"), new Color("#000000"));
+    const s = i.addText("常见问题");
+    s.titleFont = Font.mediumSystemFont(17), s.centerAligned(), t.addRow(i), e.forEach((e => {
+      const i = new UITableRow;
+      i.height = e.h || 54;
+      const s = i.addText(e.q, e.a);
+      s.titleFont = Font.mediumSystemFont(16), s.titleColor = Color.red(), s.subtitleFont = Font.systemFont(14), e.u && (i.onSelect = async () => await Safari.openInApp(e.u)), t.addRow(i)
+    })), await t.present()
+  }
+
+  async themeDownload(e) {
+    const t = new UITable;
+    t.showSeparators = !0;
+    const i = new UITableRow;
+    i.height = 56, i.backgroundColor = Color.dynamic(new Color("#F2F1F6"), new Color("#000000"));
+    const s = i.addText("资源下载", "小组件的扩展应用集合");
+    s.titleFont = Font.mediumSystemFont(17), s.subtitleFont = Font.heavyMonospacedSystemFont(12), s.subtitleColor = Color.dynamic(new Color("#999"), new Color("#ccc")), s.centerAligned(), t.addRow(i), e.forEach((e => {
+      const i = new UITableRow;
+      i.height = e.height || 60;
+      const s = i.addText(`${e.name}${e.version ? " v" + e.version : ""}`, e.desc);
+      s.titleFont = Font.mediumSystemFont(16), s.subtitleFont = Font.systemFont(14), s.subtitleColor = Color.dynamic(new Color("#999"), new Color("#ccc")), e.download && (i.onSelect = async () => {
+        const t = e.name + ".js", i = FileManager[module.filename.includes("Documents/iCloud~") ? "iCloud" : "local"]();
+        await this.notify("下载提醒", "正在下载主题中...");
+        const s = await this.http({url: e.download, type: "load"});
+        i.write(i.joinPath(i.documentsDirectory(), t), s), await this.notify("下载成功", `${e.name} 主题下载完毕，快去使用吧！`)
+      }), e.url && (i.onSelect = async () => {
+        await Safari.open(e.url)
+      }), t.addRow(i)
+    })), await t.present()
+  }
+
+  async customRunningTableUIInit() {
+    const e = await this.http({url: "https://joiner.i95.me/v3/joiner.json", method: "GET"});
+    return this.initResponse = e, await this.checkUpdate(!1), e
+  }
+
+  async customRunningTableUIInAfter(e) {
+    const t = new UITableRow;
+    t.height = 14, e.addRow(t);
+    const i = new UITableRow;
+    i.height = 28;
+    const s = i.addButton("组件官网");
+    s.widthWeight = .5, s.centerAligned(), s.onTap = async () => {
+      await Safari.open("https://joiner.i95.me")
+    };
+    const n = i.addButton("常见问题");
+    n.widthWeight = .5, n.centerAligned(), n.onTap = async () => await this.QAPreview(this.initResponse.QA);
+    const o = i.addButton("捐赠支持");
+    o.widthWeight = .5, o.centerAligned(), o.onTap = async () => {
+      await Safari.open("https://qr.alipay.com/fkx16611d9qgth0qzixse66")
+    }, e.addRow(i);
+    const a = new UITableRow;
+    a.height = 28;
+    const r = a.addButton("检查更新");
+    if (r.widthWeight = .5, r.centerAligned(), r.onTap = async () => await this.checkUpdate(), this.initResponse.resources && 0 !== this.initResponse.resources.length) {
+      const e = a.addButton("资源下载");
+      e.widthWeight = .5, e.centerAligned(), e.onTap = async () => await this.themeDownload(this.initResponse.resources)
+    }
+    e.addRow(a);
+    const l = new UITableRow;
+    l.height = 28;
+    const c = l.addText(`当前版本: v${this.version} - 淮城一只猫`);
+    c.titleFont = Font.mediumSystemFont(12), c.titleColor = new Color("#999"), c.centerAligned(), e.addRow(l);
+    const h = new UITableRow;
+    h.height = 250;
+    const g = await this.getImageByUrl(this.initResponse.banner.bottomCenter || "https://joiner.i95.me/v3/images/banner_01.png");
+    h.addImage(g).centerAligned(), e.addRow(h)
+  }
+
+  async siriShortcutData() {
+    const e = await this.siriShortcutHonkAndFlash();
+    return e || await this.getData()
+  }
+
+  async siriShortcutHonkAndFlash() {
+    const e = args.plainTexts, t = e.includes("闪灯"), i = e.includes("鸣笛"), s = e.includes("鸣笛和闪灯");
+    if (t || i || s) {
+      const n = e.find((e => /时长\d+秒/g.test(e))).replace(/\D/gi, "");
+      let o = "HONK_AND_FLASH";
+      return t && (o = "FLASH_ONLY"), i && (o = "HONK_ONLY"), s && (o = "HONK_AND_FLASH"), await this.handleHonkAndFlash(o, n)
+    }
+  }
+
+  handleVehiclesData(e) {
+    if (1) {
+      return {
+        oilSupport: 1,
+        oilLevel: 1,
+        parkingLights: 1,
+        outdoorTemperature: 1,
+        parkingBrakeActive: 1,
+        fuelRange: e.batteryStatus.cruisingRangeElectricKm,
+        fuelLevel: e.batteryStatus.currentSOCPct,
+        socLevel: null,
+        mileage: 0,
+        updateTimeStamp: new Date(e.batteryStatus.carCapturedTimestamp).valueOf(),
+        isLocked: 1,
+        doorStatus: [],
+        windowStatus: []
+      }
+    }
+    const t = e.find((e => "0x0204FFFFFF" === e.id))?.field;
+    let i = "N/A";
+    t && (i = t.find((e => "0x0204040003" === e.id))?.value);
+    const s = e.find((e => "0x0301FFFFFF" === e.id))?.field, n = s.find((e => "0x0301010001" === e.id))?.value,
+      o = s.find((e => "0x0301020001" === e.id))?.value, a = (parseInt(o, 10) / 10 - 273.15).toFixed(1),
+      r = s.find((e => "0x0301030001" === e.id))?.value,
+      l = parseInt(s.find((e => "0x0301030005" === e.id))?.value, 10) || parseInt(s.find((e => "0x0301030006" === e.id))?.value, 10),
+      c = s.find((e => "0x030103000A" === e.id))?.value, h = s.find((e => "0x0301030002" === e.id))?.value,
+      g = e.find((e => "0x0101010002" === e.id))?.field, d = g.find((e => "0x0101010002" === e.id))?.value,
+      m = g.find((e => "0x0101010002" === e.id))?.tsCarSentUtc, u = new Date(m).valueOf(),
+      w = this.getVehiclesLocked(s), p = this.getVehiclesDoorStatus(s).map((e => e.name)),
+      y = this.getVehiclesWindowStatus(s).map((e => e.name));
+    console.log(e);
+    return {
+      oilSupport: void 0 !== t,
+      oilLevel: i,
+      parkingLights: n,
+      outdoorTemperature: a,
+      parkingBrakeActive: r,
+      fuelRange: l,
+      fuelLevel: c,
+      socLevel: h,
+      mileage: d,
+      updateTimeStamp: u,
+      isLocked: w,
+      doorStatus: p,
+      windowStatus: y
+    }
+  }
+
+  getVehiclesLocked(e) {
+    const t = ["0x0301040001", "0x0301040004", "0x0301040007", "0x030104000A", "0x030104000D"],
+      i = e.filter((e => t.some((t => t === e.id)))).filter((e => "0" !== e.value));
+    return i.every((e => "2" === e.value))
+  }
+
+  getVehiclesDoorStatus(e) {
+    const t = [{id: "0x0301040002", name: "左前门"}, {id: "0x0301040005", name: "左后门"}, {
+        id: "0x0301040008",
+        name: "右前门"
+      }, {id: "0x030104000B", name: "右后门"}, {id: "0x0301040011", name: "引擎盖"}, {id: "0x030104000E", name: "后备箱"}],
+      i = e.filter((e => t.some((t => t.id === e.id)))),
+      s = i.filter((e => "2" === e.value)).filter((e => "0" !== e.value));
+    return t.filter((e => s.some((t => t.id === e.id))))
+  }
+
+  getVehiclesWindowStatus(e) {
+    const t = [{id: "0x0301050001", name: "左前窗"}, {id: "0x0301050003", name: "左后窗"}, {
+        id: "0x0301050005",
+        name: "右前窗"
+      }, {id: "0x0301050007", name: "右后窗"}, {id: "0x030105000B", name: "天窗"}],
+      i = e.filter((e => t.some((t => t.id === e.id)))),
+      s = i.filter((e => "2" === e.value)).filter((e => "0" !== e.value));
+    return t.filter((e => s.some((t => t.id === e.id))))
+  }
+
+  requestHeader() {
+    return {}
+  }
+} {
+  constructor(e) {
+    super(e), this.defaultLogoWidth = "40", this.defaultLogoHeight = "14", this.defaultMyOne = "世间美好，与您环环相扣", this.appId = "com.tima.aftermarket", this.appName = "MyAuDi", this.appVersion = "3.0.2", this.brand = "Audi", this.field = "fvwAudi", this.postId = "", this.postTitle = "", this.run()
+  }
+
+  run() {
+    const e = this.settings.isLogin;
+    config.runsInApp && (e || this.registerAction("账户登录", this.actionAccountLogin, {
+      name: "person",
+      color: "#6564C0"
+    }), e && this.registerAction("基础设置", this.baseConfig, {
+      name: "gearshape",
+      color: "#66CCCC"
+    }), e && this.registerAction("组件设置", this.componentsConfig, {name: "gearshape.2", color: "#6965CC"}))
+  }
+
+  requestHeader() {
+    return {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "User-Agent": "MyAuDi/3.0.2 CFNetwork/1325.0.1 Darwin/21.1.0",
+      "X-Client-ID": this.settings.clientID
+    }
+  }
+
+  async actionAccountLogin() {
+    if (1 !== await this.generateAlert("Joiner 组件声明", "\n      Joiner 小组件需要使用到您的一汽奥迪应用的账号，首次登录请配置账号、密码进行令牌获取\n\r\n      Joiner 小组件不会收集您的个人账户信息，所有账号信息将存在 iCloud 或者 iPhone 上但也请您妥善保管自己的账号\n\r\n      Joiner 小组件是开源、并且完全免费的，由奥迪车主开发，所有责任与一汽奥迪公司无关\n\r\n      开发者: 淮城一只猫\n\r\n      温馨提示：由于一汽奥迪应用支持单点登录，即不支持多终端应用登录，建议在一汽奥迪应用「用车 - 更多功能 - 用户管理」进行添加用户，这样 Joiner 组件和应用独立执行。\n    ", ["同意", "不同意"])) {
+      const e = new Alert;
+      e.title = "Joiner 登录", e.message = "使用一汽奥迪 App 账号登录进行展示数据", e.addTextField("一汽奥迪 App 账号", this.settings.username), e.addSecureTextField("一汽奥迪 App 密码", this.settings.password), e.addAction("确定"), e.addCancelAction("取消");
+      if (-1 === await e.presentAlert()) return;
+      this.settings.username = e.textFieldValue(0), this.settings.password = e.textFieldValue(1), console.log("您已经同意协议，并且已经储存账户信息，开始进行获取设备编码"), await this.saveSettings(!1), await this.getDeviceId()
+    }
+  }
+
+  async handleLoginRequest(e = !1) {
+    const t = {
+      url: "https://audi2c.faw-vw.com/capi/v1/user/login",
+      method: "POST",
+      headers: this.requestHeader(),
+      body: JSON.stringify({
+        loginChannelEnum: "APP",
+        loginTypeEnum: "ACCOUNT_PASSWORD",
+        account: this.settings.username.trim(),
+        password: this.settings.password.trim()
+      })
+    };
+    try {
+      const i = await this.http(t);
+      if (e && (console.log("登录接口返回数据："), console.log(i), this.settings.debugOutputLog += "登录接口返回数据：\n" + JSON.stringify(i) + "\n", await this.saveSettings(!1)), 0 === i.code) {
+        this.settings.isLogin && await this.notify("登录成功", "正在从服务器获取车辆数据，请耐心等待！");
+        const {accessToken: t, idToken: s} = i.data;
+        this.settings.userAccessToken = t, this.settings.userIDToken = s, await this.saveSettings(!1), console.log("账户登录成功，存储用户 accessToken, idToken 密钥信息，准备交换验证密钥数据和获取个人基础信息"), await this.getTokenRequest("refreshAuthToken", e), await this.getUserMineRequest(e)
+      } else console.error("账户登录失败：" + i.message), await this.notify("账户登录失败", "账户登录失败：" + i.message)
+    } catch (e) {
+      console.error(e);
+      const i = {url: t.url, error: e.toString()};
+      await this.writeError(i)
+    }
+  }
+
+  async getTokenRequest(e, t = !1) {
+    let i = "";
+    switch (e) {
+      case"refreshAuthToken":
+        i = `grant_type=${encodeURIComponent("id_token")}&token=${encodeURIComponent(this.settings.userIDToken)}&scope=${encodeURIComponent("sc2:fal")}`;
+        break;
+      case"authAccessToken":
+        i = `grant_type=${encodeURIComponent("refresh_token")}&token=${encodeURIComponent(this.settings.refreshAuthToken)}&scope=${encodeURIComponent("sc2:fal")}&vin=${this.settings.carVIN}`
+    }
+    const s = L(this.requestHeader());
+    delete s.Accept, delete s["Content-Type"], s["X-Client-ID"] = "de6d8b23-792f-47b8-82f4-e4cc59c2916e";
+    const n = {
+      url: "https://mbboauth-1d.prd.cn.vwg-connect.cn/mbbcoauth/mobile/oauth2/v1/token",
+      method: "POST",
+      headers: s,
+      body: i
+    };
+    try {
+      const i = await this.http(n);
+      if (t && (console.log(`${e} 密钥接口返回数据：`), console.log(i), console.warn("请注意不要公开此密钥信息，否则会有被丢车、被盗窃等的风险！")), i.error) switch (i.error) {
+        case"invalid_grant":
+          /expired/g.test(i.error_description) ? (console.warn("RefreshToken 数据过期，正在重新获取数据中，请耐心等待..."), await this.getTokenRequest("refreshAuthToken", t)) : (console.error("Token 授权无效，请联系开发者："), console.error(`${i.error_description} - ${i.error_description}`));
+          break;
+        case"invalid_request":
+          console.warn("IDToken 数据过期，正在重新登录中，请耐心等待..."), await this.handleLoginRequest(t);
+          break;
+        default:
+          console.error("交换 Token 请求失败：" + i.error + " - " + i.error_description)
+      } else "refreshAuthToken" === e && (this.settings.refreshAuthToken = i.refresh_token, await this.saveSettings(!1), console.log("refreshAuthToken 密钥数据获取成功并且存储到本地")), "authAccessToken" === e && (this.settings.authToken = i.access_token, await this.saveSettings(!1), console.log("authToken 密钥数据获取成功并且存储到本地"), await this.getApiBaseURI(t))
+    } catch (e) {
+      console.error(e);
+      const t = {url: n.url, error: e.toString()};
+      await this.writeError(t)
+    }
+  }
+
+  async getUserMineRequest(e = !1) {
+    const t = {
+      url: "https://audi2c.faw-vw.com/capi/v1/user/mine",
+      method: "GET",
+      headers: {
+        "X-ACCESS-TOKEN": this.settings.userAccessToken,
+        "X-CHANNEL": "IOS",
+        "x-mobile": this.settings.username.trim(), ...this.requestHeader()
+      }
+    };
+    try {
+      const i = await this.http(t);
+      if (console.log("个人中心接口返回数据："), console.log(i), 0 === i.code) {
+        const {vehicleDto: t} = i.data;
+        if (null === t) await this.notify("获取车辆信息失败", "此账号没有绑定车辆信息，请尝试绑定车辆并且激活车联网！"); else {
+          const {plateNo: s, seriesName: n, carModelName: o, vin: a} = t;
+          this.settings.carPlateNo = s, this.settings.seriesName = n, this.settings.carModelName = o, this.settings.carVIN = a, await this.saveSettings(!1), console.log("获取用户基本信息成功并将存储本地"), e && (console.log("获取个人信息："), console.log("车牌号码：" + s), console.log("车系名称：" + n), console.log("车型名称：" + o), console.log("车架号码：" + a), this.settings.debugOutputLog += "账号个人信息：\n" + JSON.stringify(i) + "\n", await this.saveSettings(!1)), await this.getTokenRequest("authAccessToken", e)
+        }
+      } else 10009 === i.code ? (await this.notify("登录鉴权失效", "正在重新登陆中..."), await this.handleLoginRequest(e)) : (console.error("获取个人信息失败，请登出重置后再进行小组件登录！"), await this.notify("个人信息获取失败", i.message))
+    } catch (e) {
+      console.error(e);
+      const i = {url: t.url, error: e.toString()};
+      await this.writeError(i)
+    }
+  }
+
+  async getSignInGetNewPostRequest() {
+    const e = {
+      url: "https://audi2c.faw-vw.com/capi/v1/information/platform/page_list?current=1&pageSize=1&platformId=0",
+      method: "GET",
+      headers: {
+        "X-ACCESS-TOKEN": this.settings.userAccessToken,
+        "X-CHANNEL": "IOS",
+        "x-mobile": this.settings.username.trim(), ...this.requestHeader()
+      }
+    };
+    try {
+      const t = await this.http(e);
+      if (0 === t.code) {
+        const e = t.data.records[0];
+        this.postId = e.id, this.postTitle = e.title
+      } else {
+        await this.notify("获取最新的文章编号失败", "请到错误日志菜单查看信息！");
+        const i = {url: e.url, error: JSON.stringify(t)};
+        await this.writeError(i)
+      }
+    } catch (t) {
+      console.error(t);
+      const i = {url: e.url, error: t.toString()};
+      await this.writeError(i)
+    }
+  }
+
+  async getSignIn2Request() {
+    const e = {
+      url: `https://audi2c.faw-vw.com/capi/v1/information/forward/${this.postId}`,
+      method: "POST",
+      headers: {
+        "X-ACCESS-TOKEN": this.settings.userAccessToken,
+        "X-CHANNEL": "IOS",
+        "x-mobile": this.settings.username.trim(), ...this.requestHeader()
+      }
+    };
+    try {
+      await this.http(e), await this.notify("文章分享成功！", M() + ": 文章分享成功，积分 +2")
+    } catch (t) {
+      console.error(t);
+      const i = {url: e.url, error: t.toString()};
+      await this.writeError(i)
+    }
+  }
+
+  async getSignIn3Request(e) {
+    const t = (new Date).valueOf(), i = {
+      url: `https://audi2c.faw-vw.com/capi/v1/information/like/save?infoId=${this.postId}&type=${e}&_t=${t}`,
+      method: "POST",
+      headers: {
+        "X-ACCESS-TOKEN": this.settings.userAccessToken,
+        "X-CHANNEL": "IOS",
+        "x-mobile": this.settings.username.trim(), ...this.requestHeader()
+      }
+    };
+    try {
+      await this.http(i), "LIKE" === e && await this.notify("文章点赞成功！", M() + ": 文章点赞成功，稍后自动取消点赞，积分 +2")
+    } catch (e) {
+      console.error(e);
+      const t = {url: i.url, error: e.toString()};
+      await this.writeError(t)
+    }
+  }
+
+  async getSignIn4Request(e) {
+    const t = (new Date).valueOf(), i = {
+      url: `https://audi2c.faw-vw.com/capi/v1/information/collect/save?infoId=${this.postId}&type=${e}&_t=${t}`,
+      method: "POST",
+      headers: {
+        "X-ACCESS-TOKEN": this.settings.userAccessToken,
+        "X-CHANNEL": "IOS",
+        "x-mobile": this.settings.username.trim(), ...this.requestHeader()
+      }
+    };
+    try {
+      await this.http(i), "COLLECT" === e && await this.notify("文章收藏成功！", M() + ": 文章收藏成功，稍后自动取消收藏，积分 +2")
+    } catch (e) {
+      console.error(e);
+      const t = {url: i.url, error: e.toString()};
+      await this.writeError(t)
+    }
+  }
+
+  async getSignIn5Request(e = "支持一下") {
+    const t = {
+      url: `https://audi2c.faw-vw.com/capi/v1/information/comment/save?_t=${(new Date).valueOf()}`,
+      method: "POST",
+      headers: {
+        "X-ACCESS-TOKEN": this.settings.userAccessToken,
+        "X-CHANNEL": "IOS",
+        "x-mobile": this.settings.username.trim(), ...this.requestHeader()
+      },
+      body: JSON.stringify({channel: "APP", infoId: this.postId, content: e})
+    };
+    try {
+      await this.http(t), await this.notify("文章评论成功！", M() + ": 文章评论成功，积分 +2")
+    } catch (e) {
+      console.error(e);
+      const i = {url: t.url, error: e.toString()};
+      await this.writeError(i)
+    }
+  }
+
+  async getSignIn1Request() {
+    const e = {
+      url: "https://audi2c.faw-vw.com/capi/v1/task/sign_in",
+      method: "GET",
+      headers: {
+        "X-ACCESS-TOKEN": this.settings.userAccessToken,
+        "X-CHANNEL": "IOS",
+        "x-mobile": this.settings.username.trim(), ...this.requestHeader()
+      }
+    };
+    try {
+      await this.http(e), await this.notify("积分签到请求成功！", M() + ": 因为返回数据加密，请再 App 确定是否签到成功哦！")
+    } catch (t) {
+      console.error(t);
+      const i = {url: e.url, error: t.toString()};
+      await this.writeError(i)
+    }
+  }
+
+  async getSignInMainRequest() {
+    const e = {
+      url: "https://audi2c.faw-vw.com/capi/v1/vehicle/browse?task=1",
+      method: "GET",
+      headers: {
+        "X-ACCESS-TOKEN": this.settings.userAccessToken,
+        "X-CHANNEL": "IOS",
+        "x-mobile": this.settings.username.trim(), ...this.requestHeader()
+      }
+    };
+    try {
+      const t = await this.http(e);
+      if (0 === t.code) !0 === t.data ? await this.notify("浏览车辆签到成功！", M() + "已签到成功，积分 +1") : await this.notify("浏览车辆签到失败！", M() + ": " + t.message); else if (10009 === t.code) await this.notify("登录鉴权失效", "正在重新登陆中..."), await this.handleLoginRequest(), await this.getSignInMainRequest(); else {
+        await this.notify("浏览车辆签到失败", "请到错误日志菜单查看信息！");
+        const i = {url: e.url, error: JSON.stringify(t)};
+        await this.writeError(i)
+      }
+    } catch (t) {
+      console.error(t);
+      const i = {url: e.url, error: t.toString()};
+      await this.writeError(i)
+    }
+  }
+
+  async siriShortcutData() {
+    const e = args.plainTexts, t = e.includes("签到"), i = await this.siriShortcutHonkAndFlash();
+    if (i) return i;
+    if (t) {
+      await this.getSignInMainRequest(), await this.getSignIn1Request();
+      const t = e.find((e => /星期/g.test(e))) && e.find((e => /星期/g.test(e))).replace(/星期/gi, "") || "0";
+      if ((new Date).getDay() === parseInt(t, 10)) {
+        await this.getSignInGetNewPostRequest(), await this.getSignIn2Request(), await this.getSignIn3Request("LIKE"), await this.getSignIn4Request("COLLECT");
+        const t = e.find((e => /评论/g.test(e))) && e.find((e => /评论/g.test(e))).replace(/评论/gi, "");
+        await this.getSignIn5Request(t), await this.getSignIn3Request("CANCEL_LIKE"), await this.getSignIn4Request("CANCEL_COLLECT")
+      }
+      return "自动化签到执行成功！请过五秒后打开 App 查看签到结果！"
+    }
+    return await this.getData()
+  }
+});
